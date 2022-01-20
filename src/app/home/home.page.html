@@ -7,14 +7,16 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-list>
+    <ion-item-sliding *ngFor="let list of listService.getAll();">
+      <ion-item lines="full" [routerLink]="['/list-details', list.name]">
+        <ion-label>{{ list.name }}</ion-label>
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option class="delete" (click)="delete(list)"><ion-icon name="trash"></ion-icon></ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-button expand="block" [routerLink]="['create-list']">Add a new list</ion-button>
 </ion-content>
