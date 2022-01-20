@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ListDetailsPageRoutingModule } from './list-details-routing.module';
 
 import { ListDetailsPage } from './list-details.page';
+import { CreateTodoComponent } from "../../modals/create-todo/create-todo.component";
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { ListDetailsPage } from './list-details.page';
     IonicModule,
     ListDetailsPageRoutingModule
   ],
-  declarations: [ListDetailsPage]
+    declarations: [ListDetailsPage, CreateTodoComponent]
 })
 export class ListDetailsPageModule {}

@@ -6,11 +6,15 @@ import {Todo} from "../models/todo";
   providedIn: 'root'
 })
 export class ListService {
-  lists : List[] = [new List("Liste 1", [new Todo("Todo 1")]),
-    new List("Liste 2", [new Todo("Todo 1"), new Todo("Todo 2")]),
-    new List("Liste 3", [new Todo("Todo 1")])];
+  lists : List[] = [];
 
   constructor() { }
+
+  public init() {
+    this.lists.push(new List("List 1", [new Todo("Todo 1")]));
+    this.lists.push(new List("List 2", [new Todo("Todo 1"), new Todo("Todo 2")]));
+    this.lists.push(new List("List 3", [new Todo("Todo 1")]));
+  }
 
   public getAll() : List[] {
     return this.lists;
@@ -25,7 +29,24 @@ export class ListService {
   }
 
   public delete(list : List) {
-    const i = this.lists.indexOf(list);
-    delete this.lists[i];
+    const index = this.lists.indexOf(list, 0);
+    if (index > -1) {
+      this.lists.splice(index, 1);
+    }
+  }
+
+  public deleteTodo(listName : String, todo : Todo) {
+    let counter = 0;
+    let i;
+    this.lists.forEach( (n,t) => {
+      if (n.name == listName) {
+        i = counter;
+      }
+      counter++;
+    })
+    const index = this.lists[i].todos.indexOf(todo, 0);
+    if (index > -1) {
+      this.lists[i].todos.splice(index, 1);
+    }
   }
 }

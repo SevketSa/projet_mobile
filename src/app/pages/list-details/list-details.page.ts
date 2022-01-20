@@ -24,7 +24,7 @@ export class ListDetailsPage implements OnInit {
     })
   }
 
-  delete(todo : Todo) {
-    return;
+  delete(listName : String, todo : Todo) {
+    this.listService.deleteTodo(listName, todo);
   }
 }

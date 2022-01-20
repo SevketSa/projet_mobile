@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {ListService} from "../services/list.service";
-import {Todo} from "../models/todo";
 import {List} from "../models/list";
 
 @Component({
@@ -9,6 +8,7 @@ import {List} from "../models/list";
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  lists: List[] = [];
 
   constructor(public listService : ListService) {}
 
@@ -16,7 +16,12 @@ export class HomePage {
     console.log("coucou");
   }
 
+  ngOnInit() {
+    this.listService.init();
+    this.lists = this.listService.getAll();
+  }
+
   delete(list : List) {
-    return;
+    this.listService.delete(list);
   }
 }

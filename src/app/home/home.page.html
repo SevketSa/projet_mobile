@@ -1,14 +1,14 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Todo List
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <ion-item-sliding *ngFor="let list of listService.getAll();">
+    <ion-item-sliding *ngFor="let list of lists;">
       <ion-item lines="full" [routerLink]="['/list-details', list.name]">
         <ion-label>{{ list.name }}</ion-label>
         <ion-icon name="chevron-forward-outline"></ion-icon>
@@ -18,5 +18,11 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
-  <ion-button expand="block" [routerLink]="['create-list']">Add a new list</ion-button>
+
+  <ion-button id="trigger-button-list" expand="block">Add a new list</ion-button>
+  <ion-modal trigger="trigger-button-list">
+    <ng-template>
+      <app-create-list></app-create-list>
+    </ng-template>
+  </ion-modal>
 </ion-content>

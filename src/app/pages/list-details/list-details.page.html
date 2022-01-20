@@ -11,10 +11,15 @@
         <ion-label>{{ todo.name }}</ion-label>
       </ion-item>
       <ion-item-options side="end">
-        <ion-item-option class="delete" (click)="delete(todo)"><ion-icon name="trash"></ion-icon></ion-item-option>
+        <ion-item-option class="delete" (click)="delete(this.name, todo)"><ion-icon name="trash"></ion-icon></ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
 
-  <ion-button expand="block" [routerLink]="['create-todo']">Add a new todo</ion-button>
+  <ion-button id="trigger-button-todo" expand="block">Add a new todo</ion-button>
+  <ion-modal trigger="trigger-button-todo">
+    <ng-template>
+      <app-create-todo></app-create-todo>
+    </ng-template>
+  </ion-modal>
 </ion-content>
