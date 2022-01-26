@@ -8,13 +8,16 @@ import { ListDetailsPageRoutingModule } from './list-details-routing.module';
 
 import { ListDetailsPage } from './list-details.page';
 import { CreateTodoComponent } from "../../modals/create-todo/create-todo.component";
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ListDetailsPageRoutingModule
+    ListDetailsPageRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
     declarations: [ListDetailsPage, CreateTodoComponent]
 })

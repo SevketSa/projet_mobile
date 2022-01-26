@@ -16,10 +16,5 @@
     </ion-item-sliding>
   </ion-list>
 
-  <ion-button id="trigger-button-todo" expand="block">Add a new todo</ion-button>
-  <ion-modal trigger="trigger-button-todo">
-    <ng-template>
-      <app-create-todo></app-create-todo>
-    </ng-template>
-  </ion-modal>
+  <ion-button (click)="openModal()" expand="block">Add a new todo</ion-button>
 </ion-content>

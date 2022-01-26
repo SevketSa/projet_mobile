@@ -28,6 +28,10 @@ export class ListService {
     this.lists.push(list);
   }
 
+  public createTodo(todo : Todo, listId : number) {
+    this.lists[listId].todos.push(todo);
+  }
+
   public delete(listId : number) {
     this.lists.splice(listId, 1);
   }
