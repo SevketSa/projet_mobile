@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ListService} from "../../services/list.service";
 import {Todo} from "../../models/todo";
+import {List} from "../../models/list";
 
 @Component({
   selector: 'app-list-details',
@@ -9,7 +10,8 @@ import {Todo} from "../../models/todo";
   styleUrls: ['./list-details.page.scss'],
 })
 export class ListDetailsPage implements OnInit {
-  public id : number = -1;
+  private id : number = -1;
+  public list : List;
   public name : String = this.route.snapshot.paramMap.get("name");
 
   constructor(public route: ActivatedRoute, public listService : ListService) { }
@@ -22,9 +24,10 @@ export class ListDetailsPage implements OnInit {
       }
       counter++;
     })
+    this.list = this.listService.getOne(this.id);
   }
 
-  delete(listName : String, todo : Todo) {
-    this.listService.deleteTodo(listName, todo);
+  delete(todo : Todo) {
+    this.listService.deleteTodo(this.list, todo);
   }
 }

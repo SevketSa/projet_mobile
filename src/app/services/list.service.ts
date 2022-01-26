@@ -28,23 +28,24 @@ export class ListService {
     this.lists.push(list);
   }
 
+  private indexList(list : List) : number {
+    return this.lists.indexOf(list, 0);
+  }
+
+  private indexTodo(list : List, i : number, todo : Todo) : number {
+    return list[i].indexOf(todo, 0);
+  }
+
   public delete(list : List) {
-    const index = this.lists.indexOf(list, 0);
+    const index = this.indexList(list);
     if (index > -1) {
       this.lists.splice(index, 1);
     }
   }
 
-  public deleteTodo(listName : String, todo : Todo) {
-    let counter = 0;
-    let i;
-    this.lists.forEach( (n,t) => {
-      if (n.name == listName) {
-        i = counter;
-      }
-      counter++;
-    })
-    const index = this.lists[i].todos.indexOf(todo, 0);
+  public deleteTodo(list : List, todo : Todo) {
+    const i = this.indexList(list);
+    const index = this.indexTodo(list, i, todo);
     if (index > -1) {
       this.lists[i].todos.splice(index, 1);
     }
