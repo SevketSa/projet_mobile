@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ListService} from "../../services/list.service";
 import {ModalController, NavParams} from "@ionic/angular";
+import {Todo} from "../../models/todo";
 
 @Component({
   selector: 'app-create-todo',
@@ -23,13 +24,13 @@ export class CreateTodoComponent implements OnInit {
   }
 
   async closeModal() {
-    const onClosedData: string = "Wrapped Up!";
-    await this.modalController.dismiss(onClosedData);
+    await this.modalController.dismiss();
   }
 
   addTodo() {
-    if(this.ionicForm.value.name != "") {
-      this.modalController.dismiss(this.ionicForm.value);
+    if(this.ionicForm.value.name != null) {
+      this.listService.createTodo(new Todo(this.ionicForm.value.name, this.ionicForm.value.description), this.listId);
+      this.closeModal();
     }
   }
 }

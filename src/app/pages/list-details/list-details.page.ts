@@ -34,14 +34,7 @@ export class ListDetailsPage implements OnInit {
       }
     });
 
-    modal.onDidDismiss().then((dataReturned) => {
-      if (dataReturned !== null) {
-        this.dataReturned = dataReturned.data;
-        if(this.dataReturned.name != null) {
-          this.listService.createTodo(new Todo(this.dataReturned.name, this.dataReturned.description), this.listId)
-        }
-      }
-    });
+    modal.onDidDismiss().then(() => {});
 
     return await modal.present();
   }
