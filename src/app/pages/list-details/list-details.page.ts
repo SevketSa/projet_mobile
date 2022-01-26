@@ -10,24 +10,16 @@ import {List} from "../../models/list";
   styleUrls: ['./list-details.page.scss'],
 })
 export class ListDetailsPage implements OnInit {
-  private id : number = -1;
   public list : List;
-  public name : String = this.route.snapshot.paramMap.get("name");
+  public listId : number = +this.route.snapshot.paramMap.get("id");
 
   constructor(public route: ActivatedRoute, public listService : ListService) { }
 
   ngOnInit() {
-    let counter = 0;
-    this.listService.getAll().forEach( (n,t) => {
-      if (n.name == this.name) {
-        this.id = counter;
-      }
-      counter++;
-    })
-    this.list = this.listService.getOne(this.id);
+    this.list = this.listService.getOne(this.listId);
   }
 
-  delete(todo : Todo) {
-    this.listService.deleteTodo(this.list, todo);
+  delete(todoId : number) {
+    this.listService.deleteTodo(this.listId, todoId);
   }
 }

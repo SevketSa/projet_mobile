@@ -21,7 +21,7 @@ export class HomePage {
     this.lists = this.listService.getAll();
   }
 
-  delete(list : List) {
-    this.listService.delete(list);
+  delete(listId : number) {
+    this.listService.delete(listId);
   }
 }

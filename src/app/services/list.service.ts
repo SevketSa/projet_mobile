@@ -28,26 +28,11 @@ export class ListService {
     this.lists.push(list);
   }
 
-  private indexList(list : List) : number {
-    return this.lists.indexOf(list, 0);
+  public delete(listId : number) {
+    this.lists.splice(listId, 1);
   }
 
-  private indexTodo(list : List, i : number, todo : Todo) : number {
-    return list[i].indexOf(todo, 0);
-  }
-
-  public delete(list : List) {
-    const index = this.indexList(list);
-    if (index > -1) {
-      this.lists.splice(index, 1);
-    }
-  }
-
-  public deleteTodo(list : List, todo : Todo) {
-    const i = this.indexList(list);
-    const index = this.indexTodo(list, i, todo);
-    if (index > -1) {
-      this.lists[i].todos.splice(index, 1);
-    }
+  public deleteTodo(listId : number, todoId : number) {
+    this.lists[listId].todos.splice(todoId, 1);
   }
 }
