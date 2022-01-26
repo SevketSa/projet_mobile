@@ -18,11 +18,11 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
-
-  <ion-button id="trigger-button-list" expand="block">Add a new list</ion-button>
-  <ion-modal trigger="trigger-button-list">
-    <ng-template>
-      <app-create-list></app-create-list>
-    </ng-template>
-  </ion-modal>
 </ion-content>
+
+
+<ion-footer>
+  <ion-button (click)="openModal()" expand="block">Add a new list</ion-button>
+</ion-footer>
+
+
