@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import {ListService} from "../services/list.service";
 import {List} from "../models/list";
+import {CreateTodoComponent} from "../modals/create-todo/create-todo.component";
+import {ActivatedRoute} from "@angular/router";
+import {ModalController} from "@ionic/angular";
+import {CreateListComponent} from "../modals/create-list/create-list.component";
 
 @Component({
   selector: 'app-home',
@@ -10,7 +14,7 @@ import {List} from "../models/list";
 export class HomePage {
   lists: List[] = [];
 
-  constructor(public listService : ListService) {}
+  constructor(public route: ActivatedRoute, public listService : ListService, public modalController: ModalController) { }
 
   echo() {
     console.log("coucou");
@@ -21,7 +25,17 @@ export class HomePage {
     this.lists = this.listService.getAll();
   }
 
-  delete(list : List) {
-    this.listService.delete(list);
+  delete(listId : number) {
+    this.listService.delete(listId);
+  }
+
+  async openModal() {
+    const modal = await this.modalController.create({
+      component: CreateListComponent
+    });
+
+    modal.onDidDismiss().then(() => {});
+
+    return await modal.present();
   }
 }

@@ -28,25 +28,15 @@ export class ListService {
     this.lists.push(list);
   }
 
-  public delete(list : List) {
-    const index = this.lists.indexOf(list, 0);
-    if (index > -1) {
-      this.lists.splice(index, 1);
-    }
+  public createTodo(todo : Todo, listId : number) {
+    this.lists[listId].todos.push(todo);
   }
 
-  public deleteTodo(listName : String, todo : Todo) {
-    let counter = 0;
-    let i;
-    this.lists.forEach( (n,t) => {
-      if (n.name == listName) {
-        i = counter;
-      }
-      counter++;
-    })
-    const index = this.lists[i].todos.indexOf(todo, 0);
-    if (index > -1) {
-      this.lists[i].todos.splice(index, 1);
-    }
+  public delete(listId : number) {
+    this.lists.splice(listId, 1);
+  }
+
+  public deleteTodo(listId : number, todoId : number) {
+    this.lists[listId].todos.splice(todoId, 1);
   }
 }

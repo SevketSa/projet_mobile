@@ -1,0 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Todo Detail
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-item>
+    <ion-item>
+      <ion-label position="stacked">Nom</ion-label>
+      <ion-input
+        value = {{myTodo.name}} ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Description</ion-label>
+      <ion-input
+        value = {{myTodo.description}} ></ion-input>
+    </ion-item>
+    <ion-item >
+      <ion-label>Fait</ion-label>
+      <ion-checkbox checked={{myTodo.isDone}}></ion-checkbox>
+    </ion-item>
+      <ion-label></ion-label>
+  </ion-item>
+</ion-content>

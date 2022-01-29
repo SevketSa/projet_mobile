@@ -12,9 +12,15 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'list-details/:name',
+    path: 'list-details/:id',
     loadChildren: () => import('./pages/list-details/list-details.module').then( m => m.ListDetailsPageModule)
-  },  {
+  },
+  {
+    path: 'todo-details/:idL/:idT',
+    loadChildren: () => import('./pages/todo-details/todo-details.module').then(m => m.TodoDetailsPageModule)
+  },
+
+  {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
