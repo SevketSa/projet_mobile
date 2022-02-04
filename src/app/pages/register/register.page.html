@@ -5,5 +5,17 @@
 </ion-header>
 
 <ion-content>
-
+  <div>
+    <form [formGroup]="ionicForm" (ngSubmit)="register()" novalidate>
+      <ion-item lines="full">
+        <ion-label position="stacked">Mail</ion-label>
+        <ion-input type="text" required formControlName="email"></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input type="password" required formControlName="password"></ion-input>
+      </ion-item>
+      <ion-button expand="block" type="submit">Register</ion-button>
+    </form>
+  </div>
 </ion-content>
