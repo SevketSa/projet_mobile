@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>login</ion-title>
+    <ion-title>Login</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,48 +11,29 @@
   </div>
   <ng-template #showLogin>
     <form [formGroup]="ionicForm" (ngSubmit)="login()" novalidate>
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-item lines="full">
-              <ion-label position="stacked">Mail</ion-label>
-              <ion-input type="text" required formControlName="email"></ion-input>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-item lines="full">
-              <ion-label position="stacked">Password</ion-label>
-              <ion-input type="password" required formControlName="password"></ion-input>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-button expand="block" type="submit">Login</ion-button>
-          </ion-col>
-        </ion-row>
-        <ion-row id="loginOr">
-          <ion-col>
-            Or
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-button expand="block" (click)="loginWGoogle()">
-              <ion-icon slot="start" name="logo-google"></ion-icon>
-              Login with Google
-            </ion-button>
-          </ion-col>
-          <ion-col>
-            <ion-button expand="block" (click)="loginWFacebook()">
-              <ion-icon slot="start" name="logo-facebook"></ion-icon>
-              Login with Facebook
-            </ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+      <ion-item lines="full">
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input type="text" required formControlName="email"></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input type="password" required formControlName="password"></ion-input>
+      </ion-item>
+      <a routerLink="/password-recovery">
+        Did you forget your password ?
+      </a>
+      <ion-button expand="block" type="submit">Login</ion-button>
+      <ion-text>
+        or
+      </ion-text>
+      <ion-button expand="block" (click)="loginWGoogle()">
+        <ion-icon slot="start" name="logo-google"></ion-icon>
+        Login with Google
+      </ion-button>
+      <ion-button expand="block" (click)="loginWFacebook()">
+        <ion-icon slot="start" name="logo-facebook"></ion-icon>
+        Login with Facebook
+      </ion-button>
     </form>
   </ng-template>
 </ion-content>

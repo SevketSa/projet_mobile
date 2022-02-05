@@ -34,7 +34,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/todo-details/todo-details.module').then(m => m.TodoDetailsPageModule),
     canActivate: [AngularFireAuthGuard]
   },
-
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
