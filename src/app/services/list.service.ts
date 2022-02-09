@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {List} from "../models/list";
 import {Todo} from "../models/todo";
 
@@ -6,9 +6,10 @@ import {Todo} from "../models/todo";
   providedIn: 'root'
 })
 export class ListService {
-  lists : List[] = [];
+  lists: List[] = [];
 
-  constructor() { }
+  constructor() {
+  }
 
   public init() {
     this.lists.push(new List("List 1", null, [new Todo("Todo 1")]));
@@ -16,27 +17,27 @@ export class ListService {
     this.lists.push(new List("List 3", null, [new Todo("Todo 1")]));
   }
 
-  public getAll() : List[] {
+  public getAll(): List[] {
     return this.lists;
   }
 
-  public getOne(listId : number) {
+  public getOne(listId: number) {
     return this.lists.find(list => list.id == listId);
   }
 
-  public create(list : List) {
+  public create(list: List) {
     this.lists.push(list);
   }
 
-  public createTodo(todo : Todo, listId : number) {
+  public createTodo(todo: Todo, listId: number) {
     this.lists.find(list => list.id == listId).todos.push(todo);
   }
 
-  public delete(listId : number) {
+  public delete(listId: number) {
     this.lists.splice(listId, 1);
   }
 
-  public deleteTodo(listId : number, todoId : number) {
+  public deleteTodo(listId: number, todoId: number) {
     this.lists.find(list => list.id == listId).todos.splice(todoId, 1);
   }
 }

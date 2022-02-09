@@ -4,4 +4,5 @@
     <string name="title_activity_main">projet</string>
     <string name="package_name">io.ionic.starter</string>
     <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="server_client_id">215768428110-4n0nk8h8jenugll6urk3qjuuirnh6vua.apps.googleusercontent.com</string>
 </resources>
