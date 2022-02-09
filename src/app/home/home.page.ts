@@ -16,10 +16,6 @@ export class HomePage {
 
   constructor(public route: ActivatedRoute, public listService : ListService, public modalController: ModalController) { }
 
-  echo() {
-    console.log("coucou");
-  }
-
   ngOnInit() {
     this.listService.init();
     this.lists = this.listService.getAll();

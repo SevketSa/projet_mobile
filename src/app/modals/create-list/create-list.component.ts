@@ -27,7 +27,7 @@ export class CreateListComponent implements OnInit {
 
   addList() {
     if(this.ionicForm.value.name != null) {
-      this.listService.create(new List(this.ionicForm.value.name, []))
+      this.listService.create(new List(this.ionicForm.value.name))
       this.closeModal();
     }
   }

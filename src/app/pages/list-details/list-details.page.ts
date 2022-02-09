@@ -13,24 +13,23 @@ import {CreateTodoComponent} from "../../modals/create-todo/create-todo.componen
 })
 export class ListDetailsPage implements OnInit {
   public list : List;
-  public listId : number = +this.route.snapshot.paramMap.get("id");
   dataReturned: any;
 
   constructor(public route: ActivatedRoute, public listService : ListService, public modalController: ModalController) { }
 
   ngOnInit() {
-    this.list = this.listService.getOne(this.listId);
+    this.list = this.listService.getOne(+this.route.snapshot.paramMap.get("id"));
   }
 
   delete(todoId : number) {
-    this.listService.deleteTodo(this.listId, todoId);
+    this.listService.deleteTodo(this.list.id, todoId);
   }
 
   async openModal() {
     const modal = await this.modalController.create({
       component: CreateTodoComponent,
       componentProps: {
-        "listId": this.listId
+        "listId": this.list.id
       }
     });
 

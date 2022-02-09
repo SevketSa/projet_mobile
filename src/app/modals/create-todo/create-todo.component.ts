@@ -11,7 +11,7 @@ import {Todo} from "../../models/todo";
 })
 export class CreateTodoComponent implements OnInit {
   public ionicForm : FormGroup;
-  public listId : number;
+  private listId : number;
 
   constructor(public formBuilder: FormBuilder, public listService : ListService, public modalController: ModalController, private navParams: NavParams) { }
 

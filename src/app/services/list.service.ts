@@ -11,17 +11,17 @@ export class ListService {
   constructor() { }
 
   public init() {
-    this.lists.push(new List("List 1", [new Todo("Todo 1")]));
-    this.lists.push(new List("List 2", [new Todo("Todo 1"), new Todo("Todo 2")]));
-    this.lists.push(new List("List 3", [new Todo("Todo 1")]));
+    this.lists.push(new List("List 1", null, [new Todo("Todo 1")]));
+    this.lists.push(new List("List 2", null, [new Todo("Todo 1"), new Todo("Todo 2")]));
+    this.lists.push(new List("List 3", null, [new Todo("Todo 1")]));
   }
 
   public getAll() : List[] {
     return this.lists;
   }
 
-  public getOne(id : number) {
-    return this.lists[id];
+  public getOne(listId : number) {
+    return this.lists.filter(list => list.id == listId)[0];
   }
 
   public create(list : List) {
@@ -29,7 +29,7 @@ export class ListService {
   }
 
   public createTodo(todo : Todo, listId : number) {
-    this.lists[listId].todos.push(todo);
+    this.lists.filter(list => list.id == listId)[0].todos.push(todo);
   }
 
   public delete(listId : number) {
@@ -37,6 +37,6 @@ export class ListService {
   }
 
   public deleteTodo(listId : number, todoId : number) {
-    this.lists[listId].todos.splice(todoId, 1);
+    this.lists.filter(list => list.id == listId)[0].todos.splice(todoId, 1);
   }
 }
