@@ -21,7 +21,7 @@ export class ListService {
   }
 
   public getOne(listId : number) {
-    return this.lists.filter(list => list.id == listId)[0];
+    return this.lists.find(list => list.id == listId);
   }
 
   public create(list : List) {
@@ -29,7 +29,7 @@ export class ListService {
   }
 
   public createTodo(todo : Todo, listId : number) {
-    this.lists.filter(list => list.id == listId)[0].todos.push(todo);
+    this.lists.find(list => list.id == listId).todos.push(todo);
   }
 
   public delete(listId : number) {
@@ -37,6 +37,6 @@ export class ListService {
   }
 
   public deleteTodo(listId : number, todoId : number) {
-    this.lists.filter(list => list.id == listId)[0].todos.splice(todoId, 1);
+    this.lists.find(list => list.id == listId).todos.splice(todoId, 1);
   }
 }

@@ -8,7 +8,7 @@
   <div *ngIf="this.authenticationService.getUser() | async as user; else showLogin">
     <h1>Hello {{ user.displayName }}!</h1>
     <button (click)="logout()">Logout</button>
-    <button></button>
+    <button routerLink="/home">HOME</button>
   </div>
   <ng-template #showLogin>
     <form [formGroup]="ionicForm" (ngSubmit)="login()" novalidate>
