@@ -18,7 +18,7 @@ export class ListDetailsPage implements OnInit {
   constructor(public route: ActivatedRoute, public listService : ListService, public modalController: ModalController) { }
 
   ngOnInit() {
-    this.list = this.listService.getOne(+this.route.snapshot.paramMap.get("id"));
+    //this.list = this.listService.getOne(+this.route.snapshot.paramMap.get("id"));
   }
 
   delete(todoId : number) {

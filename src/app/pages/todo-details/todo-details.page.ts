@@ -19,7 +19,7 @@ export class TodoDetailsPage implements OnInit {
 
   ngOnInit() {
     let myList = this.listService.getOne(this.listId)
-    this.myTodo = myList.todos[this.todoId]
+    //this.myTodo = myList.todos[this.todoId]
   }
 
 

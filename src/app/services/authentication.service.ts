@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
+import {AngularFirestore} from "@angular/fire/compat/firestore";
+
+export interface Item { name: string; }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  constructor(public auth: AngularFireAuth) { }
+  constructor(public auth: AngularFireAuth, private afs: AngularFirestore) { }
 
   public getUser() {
     return this.auth.user;

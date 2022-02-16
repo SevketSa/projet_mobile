@@ -1,6 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {AngularFireAuth} from "@angular/fire/compat/auth";
+import {AngularFirestore, AngularFirestoreDocument} from "@angular/fire/compat/firestore";
+import firebase from "firebase/compat/app";
+import {doc, getDoc, setDoc} from "@angular/fire/firestore";
+import {ListService} from "../../services/list.service";
+
+export interface User { name: string; }
 
 @Component({
   selector: 'app-login',
@@ -8,11 +15,12 @@ import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-
   public ionicForm: FormGroup;
 
   constructor(public authenticationService: AuthenticationService,
-              public formBuilder: FormBuilder) { }
+              public formBuilder: FormBuilder,
+              public auth: AngularFireAuth,
+              private afs: AngularFirestore) { }
 
   ngOnInit() {
     this.ionicForm = new FormGroup({
@@ -21,8 +29,23 @@ export class LoginPage implements OnInit {
     });
   }
 
+  checkUser(user: firebase.User) {
+    if(user.uid !== null){
+      const docRef = this.afs.collection('users').doc(user.uid);
+      docRef.get().subscribe((d) => {
+        if(d.exists) {
+          console.log('Il existe');
+        } else {
+          console.log("Je l'ajoute");
+          setDoc(doc(this.afs.firestore, 'users', user.uid), {}).then();
+        }
+      });
+    }
+  }
+
   loginWGoogle() {
-    this.authenticationService.loginWGoogle();
+    this.authenticationService.loginWGoogle().then(() =>
+      this.auth.authState.subscribe(user => this.checkUser(user)));
   }
 
   loginWFacebook() {
