@@ -41,6 +41,7 @@ export class LoginPage implements OnInit {
         } else {
           console.log("Je l'ajoute");
           setDoc(doc(this.afs.firestore, 'users', user.uid), {}).then();
+
         }
       });
     }

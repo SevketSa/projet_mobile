@@ -9,7 +9,7 @@
 <ion-content [fullscreen]="true">
   <button (click)="logout()">Logout</button>
   <ion-list>
-    <ion-item-sliding *ngFor="let list of lists | async;">
+    <ion-item-sliding *ngFor="let list of this.lists | async;">
       <ion-item lines="full" [routerLink]="['/list-details', list.id]">
         <ion-label>{{ list.name }}</ion-label>
         <ion-icon name="chevron-forward-outline"></ion-icon>

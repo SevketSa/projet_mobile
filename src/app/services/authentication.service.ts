@@ -25,6 +25,7 @@ export class AuthenticationService {
     }
 
     public getUserId() {
+        return "hCaQBihu3FfHUVOZ1EEKxEF7CLw1";
         return this.userId;
     }
 

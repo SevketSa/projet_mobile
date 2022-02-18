@@ -1,21 +1,16 @@
 import {Injectable} from '@angular/core';
 import {List} from "../models/list";
 import {Todo} from "../models/todo";
-import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat/firestore";
+import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {Observable} from "rxjs";
-import firebase from "firebase/compat";
-import DocumentData = firebase.firestore.DocumentData;
-import {doc, setDoc} from "@angular/fire/firestore";
-import {DocumentReference} from "rxfire/firestore/interfaces";
+import {deleteDoc, doc, setDoc} from "@angular/fire/firestore";
 import {AuthenticationService} from './authentication.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ListService {
-    listsRef: AngularFirestoreCollection<DocumentData>;
-    docRef: DocumentReference<DocumentData>;
 
     constructor(public afs: AngularFirestore,
                 public auth: AngularFireAuth,
@@ -29,26 +24,44 @@ export class ListService {
     }
 
     public getOne(listId: number) {
-        return;// this.lists.find(list => list.id == listId);
+        if (this.authentication.getUserId() != null) {
+            return this.afs.doc<List>('users/' + this.authentication.getUserId() + '/lists/' + listId);
+        }
     }
 
     public create(list: List) {
-        setDoc(doc(this.docRef, '/lists', ''), {
-            id: list.id,
-            name: list.name
-        }).then();
-        //this.lists.push(list);
+        if (this.authentication.getUserId() != null) {
+            const listRef = this.afs.firestore.doc('users/'+this.authentication.getUserId());
+            setDoc(doc(listRef, 'lists', list.id.toString()), {
+                id: list.id,
+                name: list.name
+            });
+        }
     }
 
     public createTodo(todo: Todo, listId: number) {
-        //this.lists.find(list => list.id == listId).todos.push(todo);
+        if (this.authentication.getUserId() != null) {
+            const todoRef = this.afs.firestore.doc('users/'+this.authentication.getUserId()+'/lists/'+listId.toString());
+            setDoc(doc(todoRef, 'todos', todo.id.toString()), {
+                id: todo.id,
+                name: todo.name,
+                isDone: todo.isDone,
+                description: todo.description
+            });
+        }
     }
 
     public delete(listId: number) {
-        //this.lists.splice(listId, 1);
+        if (this.authentication.getUserId() != null) {
+            const listRef = this.afs.firestore.doc('users/' + this.authentication.getUserId())
+            deleteDoc(doc(listRef, "lists", listId.toString()));
+        }
     }
 
     public deleteTodo(listId: number, todoId: number) {
-        //this.lists.find(list => list.id == listId).todos.splice(todoId, 1);
+        if (this.authentication.getUserId() != null) {
+            const todoRef = this.afs.firestore.doc('users/' + this.authentication.getUserId()+'/lists/'+listId.toString())
+            deleteDoc(doc(todoRef, "todos", todoId.toString()));
+        }
     }
 }
