@@ -5,10 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="this.authenticationService.getUser() | async as user; else showLogin">
-    <h1>Hello {{ user.displayName }}!</h1>
-    <button (click)="logout()">Logout</button>
-    <button routerLink="/home">HOME</button>
+  <div *ngIf="this.authenticationService.getUser() | async; else showLogin">
   </div>
   <ng-template #showLogin>
     <form [formGroup]="ionicForm" (ngSubmit)="login()" novalidate>

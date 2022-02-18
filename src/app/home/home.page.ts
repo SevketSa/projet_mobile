@@ -1,37 +1,54 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {ListService} from "../services/list.service";
 import {List} from "../models/list";
 import {CreateTodoComponent} from "../modals/create-todo/create-todo.component";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ModalController} from "@ionic/angular";
 import {CreateListComponent} from "../modals/create-list/create-list.component";
-import {Observable} from "rxjs";
+import {EMPTY, Observable} from "rxjs";
+import {AuthenticationService} from '../services/authentication.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+    selector: 'app-home',
+    templateUrl: 'home.page.html',
+    styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  lists: Observable<List[]>;
+    lists: Observable<List[]> = EMPTY;
 
-  constructor(public route: ActivatedRoute, public listService : ListService, public modalController: ModalController) { }
+    constructor(public route: ActivatedRoute,
+                public listService: ListService,
+                private authenticationService: AuthenticationService,
+                public modalController: ModalController,
+                private router: Router) {
+    }
 
-  ngOnInit() {
-    this.lists = this.listService.getAll();
-  }
+    ngOnInit() {
+        this.lists = this.listService.getAll();
+    }
 
-  delete(listId : number) {
-    this.listService.delete(listId);
-  }
+    delete(listId: number) {
+        this.listService.delete(listId);
+    }
 
-  async openModal() {
-    const modal = await this.modalController.create({
-      component: CreateListComponent
-    });
+    async openModal() {
+        const modal = await this.modalController.create({
+            component: CreateListComponent
+        });
 
-    modal.onDidDismiss().then(() => {});
+        modal.onDidDismiss().then(() => {
+        });
 
-    return await modal.present();
-  }
+        return await modal.present();
+    }
+
+    logout() {
+        this.authenticationService.logout().catch((error) => {
+            console.error("Probleme de deconnexion");
+        });
+        this.router.navigate(['/login']).catch((error) => {
+            console.error("Probleme de redirection vers le /login");
+        });
+        ;
+    }
 }

@@ -2,10 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
-import {AngularFirestore, AngularFirestoreDocument} from "@angular/fire/compat/firestore";
+import {AngularFirestore} from "@angular/fire/compat/firestore";
 import firebase from "firebase/compat/app";
-import {doc, getDoc, setDoc} from "@angular/fire/firestore";
+import {doc, setDoc} from "@angular/fire/firestore";
 import {ListService} from "../../services/list.service";
+import {Router} from '@angular/router';
 
 export interface User { name: string; }
 
@@ -20,7 +21,9 @@ export class LoginPage implements OnInit {
   constructor(public authenticationService: AuthenticationService,
               public formBuilder: FormBuilder,
               public auth: AngularFireAuth,
-              private afs: AngularFirestore) { }
+              private afs: AngularFirestore,
+              public listService: ListService,
+              public router: Router) { }
 
   ngOnInit() {
     this.ionicForm = new FormGroup({
@@ -30,7 +33,7 @@ export class LoginPage implements OnInit {
   }
 
   checkUser(user: firebase.User) {
-    if(user.uid !== null){
+    if(user !== null && user.uid !== null){
       const docRef = this.afs.collection('users').doc(user.uid);
       docRef.get().subscribe((d) => {
         if(d.exists) {
@@ -43,20 +46,36 @@ export class LoginPage implements OnInit {
     }
   }
 
+  next() {
+      this.auth.authState.subscribe(user => {
+          this.checkUser(user);
+          this.router.navigate(['/home']).catch((error) => {
+              console.error("Probleme de redirection vers le /home");
+          });
+      })
+  }
+
   loginWGoogle() {
     this.authenticationService.loginWGoogle().then(() =>
-      this.auth.authState.subscribe(user => this.checkUser(user)));
+        this.next()
+    ).catch((error) => {
+      console.error("Probleme de connexion avec le compte google ("+error.email+"). Code erreur : "+error.code+". Message erreur : "+error.message);
+    });
   }
 
   loginWFacebook() {
-    this.authenticationService.loginWFacebook();
-  }
-
-  logout() {
-    this.authenticationService.logout();
+    this.authenticationService.loginWFacebook().then(() =>
+        this.next()
+    ).catch((error) => {
+      console.error("Probleme de connexion avec le compte facebook ("+error.email+"). Code erreur : "+error.code+". Message erreur : "+error.message);
+    });
   }
 
   login() {
-    this.authenticationService.login(this.ionicForm.value);
+    this.authenticationService.login(this.ionicForm.value).then(() =>
+        this.next()
+    ).catch((error) => {
+      console.error("Probleme de connexion. Code erreur : "+error.code+". Message erreur : "+error.message);
+    });
   }
 }

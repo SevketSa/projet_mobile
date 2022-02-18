@@ -1,51 +1,63 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
-import {AngularFirestore} from "@angular/fire/compat/firestore";
 
-export interface Item { name: string; }
+export interface Item {
+    name: string;
+}
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AuthenticationService {
+    userId: string;
 
-  constructor(public auth: AngularFireAuth, private afs: AngularFirestore) { }
+    constructor(public auth: AngularFireAuth) {
+        this.auth.user.subscribe(user => {
+            if (user !== null && user.uid !== null) {
+                this.userId = user.uid
+            }
+        });
+    }
 
-  public getUser() {
-    return this.auth.user;
-  }
+    public getUser() {
+        return this.auth.user;
+    }
 
-  public loginWGoogle() {
-    return this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-  }
+    public getUserId() {
+        return this.userId;
+    }
 
-  public loginWFacebook() {
-    return this.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
-  }
+    public loginWGoogle() {
+        return this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    }
 
-  public logout() {
-    return this.auth.signOut();
-  }
+    public loginWFacebook() {
+        return this.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
+    }
 
-  public login(formLogin: any) {
-    return this.auth.signInWithEmailAndPassword(formLogin.email, formLogin.password);
-  }
+    public logout() {
+        return this.auth.signOut();
+    }
 
-  public register(formRegister: any){
-    return this.auth.createUserWithEmailAndPassword(formRegister.email, formRegister.password);
-  }
+    public login(formLogin: any) {
+        return this.auth.signInWithEmailAndPassword(formLogin.email, formLogin.password);
+    }
 
-  public requestResetPassword(form: any) {
-    return this.auth.sendPasswordResetEmail(form.email);
-  }
+    public register(formRegister: any) {
+        return this.auth.createUserWithEmailAndPassword(formRegister.email, formRegister.password);
+    }
 
-  public verifyResetPassword(code: string) {
-    return this.auth.verifyPasswordResetCode(code);
-  }
+    public requestResetPassword(form: any) {
+        return this.auth.sendPasswordResetEmail(form.email);
+    }
 
-  public confirmResetPassword(code: string, newPassword: string) {
-    return this.auth.confirmPasswordReset(code, newPassword);
-  }
+    public verifyResetPassword(code: string) {
+        return this.auth.verifyPasswordResetCode(code);
+    }
+
+    public confirmResetPassword(code: string, newPassword: string) {
+        return this.auth.confirmPasswordReset(code, newPassword);
+    }
 
 }

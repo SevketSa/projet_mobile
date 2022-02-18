@@ -2,5 +2,13 @@
 	"appId": "io.ionic.starter",
 	"appName": "todolist",
 	"webDir": "www",
-	"bundledWebRuntime": false
+	"bundledWebRuntime": false,
+  "plugins": {
+    "GoogleAuth": {
+      "scopes": ["profile", "email"],
+      "serverClientId": "215768428110-4n0nk8h8jenugll6urk3qjuuirnh6vua.apps.googleusercontent.com",
+      "forceCodeForRefreshToken": true
+    }
+  }
 }
+
