@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Todo} from "../../models/todo";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ListService} from "../../services/list.service";
 import {List} from "../../models/list";
-import {ModalController, NavParams} from "@ionic/angular";
+import {ModalController} from "@ionic/angular";
+import {AuthenticationService} from "../../services/authentication.service";
 
 @Component({
   selector: 'app-create-list',
@@ -13,7 +13,10 @@ import {ModalController, NavParams} from "@ionic/angular";
 export class CreateListComponent implements OnInit {
   public ionicForm : FormGroup;
 
-  constructor(public formBuilder: FormBuilder, public listService : ListService, public modalController: ModalController) { }
+  constructor(public formBuilder: FormBuilder,
+              public listService : ListService,
+              public modalController: ModalController,
+              public authenticationService: AuthenticationService) { }
 
   ngOnInit() {
     this.ionicForm = new FormGroup({
@@ -27,8 +30,8 @@ export class CreateListComponent implements OnInit {
 
   addList() {
     if(this.ionicForm.value.name != null) {
-      this.listService.create(new List(this.ionicForm.value.name))
-      this.closeModal();
+      this.listService.create(new List(this.ionicForm.value.name, this.authenticationService.getUserId()))
+      this.closeModal().then();
     }
   }
 }

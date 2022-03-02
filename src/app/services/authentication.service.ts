@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
+import {filter, map} from "rxjs/operators";
 
 export interface Item {
     name: string;
@@ -10,14 +11,9 @@ export interface Item {
     providedIn: 'root'
 })
 export class AuthenticationService {
-    userId: string;
 
     constructor(public auth: AngularFireAuth) {
-        this.auth.user.subscribe(user => {
-            if (user !== null && user.uid !== null) {
-                this.userId = user.uid
-            }
-        });
+      this.auth.user.subscribe(user => console.log(user, this.auth.currentUser));
     }
 
     public getUser() {
@@ -25,8 +21,10 @@ export class AuthenticationService {
     }
 
     public getUserId() {
+      console.log(this.auth.currentUser)
         return "hCaQBihu3FfHUVOZ1EEKxEF7CLw1";
-        return this.userId;
+
+        //return this.auth.user.pipe(filter(user => !!user), map(user => user.uid));
     }
 
     public loginWGoogle() {

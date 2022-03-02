@@ -2,9 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
-import {AngularFirestore} from "@angular/fire/compat/firestore";
-import firebase from "firebase/compat/app";
-import {doc, setDoc} from "@angular/fire/firestore";
 import {ListService} from "../../services/list.service";
 import {Router} from '@angular/router';
 
@@ -20,8 +17,6 @@ export class LoginPage implements OnInit {
 
   constructor(public authenticationService: AuthenticationService,
               public formBuilder: FormBuilder,
-              public auth: AngularFireAuth,
-              private afs: AngularFirestore,
               public listService: ListService,
               public router: Router) { }
 
@@ -32,28 +27,10 @@ export class LoginPage implements OnInit {
     });
   }
 
-  checkUser(user: firebase.User) {
-    if(user !== null && user.uid !== null){
-      const docRef = this.afs.collection('users').doc(user.uid);
-      docRef.get().subscribe((d) => {
-        if(d.exists) {
-          console.log('Il existe');
-        } else {
-          console.log("Je l'ajoute");
-          setDoc(doc(this.afs.firestore, 'users', user.uid), {}).then();
-
-        }
-      });
-    }
-  }
-
   next() {
-      this.auth.authState.subscribe(user => {
-          this.checkUser(user);
-          this.router.navigate(['/home']).catch((error) => {
-              console.error("Probleme de redirection vers le /home");
-          });
-      })
+    this.router.navigate(['/home']).catch((error) => {
+      console.error("Probleme de redirection vers le /home");
+    });
   }
 
   loginWGoogle() {
