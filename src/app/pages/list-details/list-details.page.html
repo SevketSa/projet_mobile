@@ -6,7 +6,7 @@
 
 <ion-content>
   <ion-list>
-    <ion-item-sliding *ngFor="let todo of this.todos | async;">
+    <ion-item-sliding *ngFor="let todo of this.todos;">
       <ion-item [routerLink]="['/todo-details', this.listId, todo.id]">
         <ion-label>{{ todo.name }}</ion-label>
       </ion-item>

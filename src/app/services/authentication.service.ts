@@ -13,7 +13,6 @@ export interface Item {
 export class AuthenticationService {
 
     constructor(public auth: AngularFireAuth) {
-      this.auth.user.subscribe(user => console.log(user, this.auth.currentUser));
     }
 
     public getUser() {
@@ -21,10 +20,7 @@ export class AuthenticationService {
     }
 
     public getUserId() {
-      console.log(this.auth.currentUser)
-        return "hCaQBihu3FfHUVOZ1EEKxEF7CLw1";
-
-        //return this.auth.user.pipe(filter(user => !!user), map(user => user.uid));
+      return this.auth.user.pipe(filter(user => !!user), map(user => user.uid));
     }
 
     public loginWGoogle() {

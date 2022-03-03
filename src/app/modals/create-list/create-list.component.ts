@@ -4,6 +4,7 @@ import {ListService} from "../../services/list.service";
 import {List} from "../../models/list";
 import {ModalController} from "@ionic/angular";
 import {AuthenticationService} from "../../services/authentication.service";
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-list',
@@ -30,7 +31,9 @@ export class CreateListComponent implements OnInit {
 
   addList() {
     if(this.ionicForm.value.name != null) {
-      this.listService.create(new List(this.ionicForm.value.name, this.authenticationService.getUserId()))
+      this.authenticationService.getUserId().subscribe(
+          uid => this.listService.create(new List(this.ionicForm.value.name, uid))
+      )
       this.closeModal().then();
     }
   }

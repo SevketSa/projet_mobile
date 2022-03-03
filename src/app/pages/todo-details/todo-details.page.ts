@@ -14,25 +14,18 @@ export class TodoDetailsPage implements OnInit {
   public ntp : number = 3;
   public listId : number = +this.route.snapshot.paramMap.get("idL");
   public todoId : number = +this.route.snapshot.paramMap.get("idT");
-  public myTodo: Observable<Todo>;
-  public name?: String;
-  public isDone?: boolean;
-  public description?: String;
+  public todo: Observable<Todo>;
+  public name: String;
+  public isDone: boolean;
+  public description: String;
 
   constructor(public route: ActivatedRoute, public listService : ListService) { }
 
   ngOnInit() {
-    let myList = this.listService.getOne(this.listId);
-    this.myTodo = myList.collection('todos').doc<Todo>(this.todoId.toString()).valueChanges();
-    this.myTodo.subscribe(value => {
-      if(value !== null) {
-        this.name = value.name;
-        this.isDone = value.isDone;
-        this.description = value.description;
-      }
-    })
+    this.listService.getOneTodo(this.listId, this.todoId).subscribe(todo => {
+      this.name = todo.name;
+      this.isDone = todo.isDone;
+      this.description = todo.description;
+    });
   }
-
-
-
 }

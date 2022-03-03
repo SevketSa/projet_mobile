@@ -6,6 +6,7 @@ import {List} from "../../models/list";
 import {ModalController} from "@ionic/angular";
 import {CreateTodoComponent} from "../../modals/create-todo/create-todo.component";
 import {EMPTY, Observable} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-details',
@@ -14,21 +15,18 @@ import {EMPTY, Observable} from 'rxjs';
 })
 export class ListDetailsPage implements OnInit {
   public list: Observable<List>;
-  public todos: Observable<Todo[]> = EMPTY;
+  public todos: Todo[] = [];
   public listId?: number;
   public listName?: String;
 
   constructor(public route: ActivatedRoute, public listService : ListService, public modalController: ModalController) { }
 
   ngOnInit() {
-    this.list = this.listService.getOne(+this.route.snapshot.paramMap.get("id")).valueChanges();
-    this.list.subscribe(value => {
-      if(value != null) {
-        this.listId = value.id;
-        this.listName = value.name;
-      }
+    this.listService.getOne(+this.route.snapshot.paramMap.get("id")).subscribe(list => {
+      this.listId = list.id;
+      this.listName = list.name;
+      this.todos = list.todos;
     });
-    this.todos = this.listService.getOne(+this.route.snapshot.paramMap.get("id")).collection<Todo>('todos').valueChanges();
   }
 
   delete(todoId : number) {
