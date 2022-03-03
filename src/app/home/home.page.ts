@@ -7,6 +7,7 @@ import {ModalController} from "@ionic/angular";
 import {CreateListComponent} from "../modals/create-list/create-list.component";
 import {EMPTY, Observable} from "rxjs";
 import {AuthenticationService} from '../services/authentication.service';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
     selector: 'app-home',
@@ -14,7 +15,8 @@ import {AuthenticationService} from '../services/authentication.service';
     styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-    lists: Observable<List[]> = EMPTY;
+    lists: Observable<[List[], List[]]> = EMPTY;
+    type: String[] = ["Write", "Read Only"];
 
     constructor(public route: ActivatedRoute,
                 public listService: ListService,
@@ -25,6 +27,7 @@ export class HomePage {
 
     ngOnInit() {
         this.lists = this.listService.getAll();
+        this.lists.subscribe(lists => console.log(lists));
     }
 
     delete(listId: number) {

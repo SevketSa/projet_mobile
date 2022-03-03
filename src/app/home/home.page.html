@@ -3,22 +3,27 @@
     <ion-title>
       Todo List
     </ion-title>
+    <ion-button (click)="logout()">Logout</ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <button (click)="logout()">Logout</button>
-  <ion-list>
-    <ion-item-sliding *ngFor="let list of this.lists | async;">
+  <ion-item-group *ngFor="let lists of this.lists | async; let index = index;">
+    <ion-item-divider>
+      <ion-label>{{ this.type[index] }}</ion-label>
+    </ion-item-divider>
+    <ion-item-sliding *ngFor="let list of lists;">
       <ion-item lines="full" [routerLink]="['/list-details', list.id]">
         <ion-label>{{ list.name }}</ion-label>
+        <ion-icon *ngIf="index == 0" class="list-write" name="brush"></ion-icon>
+        <ion-icon class="list-read" name="eye"></ion-icon>
         <ion-icon name="chevron-forward-outline"></ion-icon>
       </ion-item>
       <ion-item-options side="end">
-        <ion-item-option class="delete" (click)="delete(list.id)"><ion-icon name="trash"></ion-icon></ion-item-option>
+        <ion-item-option color="danger" (click)="delete(list.id)"><ion-icon name="trash"></ion-icon></ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
-  </ion-list>
+  </ion-item-group>
 </ion-content>
 
 

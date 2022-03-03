@@ -6,7 +6,7 @@ import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {combineLatest, Observable} from "rxjs";
 import {deleteDoc, doc, setDoc} from "@angular/fire/firestore";
 import {AuthenticationService} from './authentication.service';
-import {map, switchMap} from "rxjs/operators";
+import {combineAll, map, switchMap} from "rxjs/operators";
 
 @Injectable({
     providedIn: 'root'
@@ -18,13 +18,14 @@ export class ListService {
                 private authentication: AuthenticationService) {
     }
 
-    public getAll(): Observable<List[]> {
+    public getAll(): Observable<[List[], List[]]> {
         return this.authentication.getUserId().pipe(
           switchMap(uid => {
               const obs1 = this.afs.collection<List>('lists/', ref => ref.where('owner','==',uid)).valueChanges();
-              return obs1;
-              //const obs2 = this.afs.collection<List>('lists/', ref => ref.where('canWrite', 'array-contains', uid)).valueChanges();
-              //return combineLatest([obs1, obs2]).pipe(map(([a, b]) => a.concat(b)));
+              const obs2 = this.afs.collection<List>('lists/', ref => ref.where('canWrite', 'array-contains', uid)).valueChanges();
+              const obs3 = this.afs.collection<List>('lists/', ref => ref.where('canRead', 'array-contains', uid)).valueChanges();
+              const write = combineLatest([obs1, obs2]).pipe(map(([a, b]) => a.concat(b)));
+              return combineLatest([write,obs3]);
           })
         )
     }
