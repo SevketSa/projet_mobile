@@ -27,7 +27,6 @@ export class HomePage {
 
     ngOnInit() {
         this.lists = this.listService.getAll();
-        this.lists.subscribe(lists => console.log(lists));
     }
 
     delete(listId: number) {

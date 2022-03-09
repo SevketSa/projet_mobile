@@ -3,7 +3,7 @@ import {List} from "../models/list";
 import {Todo} from "../models/todo";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
-import {combineLatest, Observable} from "rxjs";
+import {combineLatest, Observable, of} from "rxjs";
 import {deleteDoc, doc, setDoc} from "@angular/fire/firestore";
 import {AuthenticationService} from './authentication.service';
 import {combineAll, map, switchMap} from "rxjs/operators";
@@ -21,6 +21,7 @@ export class ListService {
     public getAll(): Observable<[List[], List[]]> {
         return this.authentication.getUserId().pipe(
           switchMap(uid => {
+              console.log(uid);
               const obs1 = this.afs.collection<List>('lists/', ref => ref.where('owner','==',uid)).valueChanges();
               const obs2 = this.afs.collection<List>('lists/', ref => ref.where('canWrite', 'array-contains', uid)).valueChanges();
               const obs3 = this.afs.collection<List>('lists/', ref => ref.where('canRead', 'array-contains', uid)).valueChanges();

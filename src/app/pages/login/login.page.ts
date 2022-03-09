@@ -4,6 +4,7 @@ import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {ListService} from "../../services/list.service";
 import {Router} from '@angular/router';
+import {switchMap} from "rxjs/operators";
 
 export interface User { name: string; }
 
@@ -21,6 +22,15 @@ export class LoginPage implements OnInit {
               public router: Router) { }
 
   ngOnInit() {
+    this.authenticationService.getUserId().
+      subscribe(uid => {
+        if(uid != null) {
+          this.router.navigate(['/home']).catch((error) => {
+            console.error("Probleme de redirection vers le /home");
+          });
+        }
+      }
+    );
     this.ionicForm = new FormGroup({
       email: new FormControl(),
       password: new FormControl()

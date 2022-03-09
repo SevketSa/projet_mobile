@@ -20,7 +20,9 @@ export class AuthenticationService {
     }
 
     public getUserId() {
-      return this.auth.user.pipe(filter(user => !!user), map(user => user.uid));
+      if(this.auth.user != null) {
+        return this.auth.user.pipe(filter(user => !!user), map(user => user.uid));
+      }
     }
 
     public loginWGoogle() {
