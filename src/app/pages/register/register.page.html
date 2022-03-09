@@ -16,6 +16,12 @@
         <ion-input (keyup.enter)="this.register()" type="password" required formControlName="password"></ion-input>
       </ion-item>
       <ion-button expand="block" type="submit">Register</ion-button>
+      <ion-text>
+        or
+      </ion-text>
+      <ion-button expand="block" routerLink="/login">
+        Login
+      </ion-button>
     </form>
   </div>
 </ion-content>
