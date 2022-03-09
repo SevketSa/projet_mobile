@@ -22,7 +22,7 @@
       <ion-textarea type="text" formControlName="description"></ion-textarea>
     </ion-item>
 
-    <ion-button type="submit" expand="block">Submit</ion-button>
+    <ion-button (keyup.enter)="addTodo()" type="submit" expand="block">Submit</ion-button>
   </form>
 </ion-content>
 

@@ -15,7 +15,7 @@
       </ion-item>
       <ion-item lines="full">
         <ion-label position="stacked">Password</ion-label>
-        <ion-input type="password" required formControlName="password"></ion-input>
+        <ion-input (keyup.enter)="this.login()" type="password" required formControlName="password"></ion-input>
       </ion-item>
       <a routerLink="/password-recovery">
         Did you forget your password ?

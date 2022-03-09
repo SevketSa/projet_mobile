@@ -13,7 +13,7 @@
       </ion-item>
       <ion-item lines="full">
         <ion-label position="stacked">Password</ion-label>
-        <ion-input type="password" required formControlName="password"></ion-input>
+        <ion-input (keyup.enter)="this.register()" type="password" required formControlName="password"></ion-input>
       </ion-item>
       <ion-button expand="block" type="submit">Register</ion-button>
     </form>
