@@ -1,8 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">projet</string>
-    <string name="title_activity_main">projet</string>
+    <string name="app_name">todolist</string>
+    <string name="title_activity_main">todolist</string>
     <string name="package_name">io.ionic.starter</string>
     <string name="custom_url_scheme">io.ionic.starter</string>
-    <string name="server_client_id">215768428110-4n0nk8h8jenugll6urk3qjuuirnh6vua.apps.googleusercontent.com</string>
 </resources>

@@ -37,12 +37,18 @@ export class AuthenticationService {
         return this.auth.signOut();
     }
 
-    public login(formLogin: any) {
-        return this.auth.signInWithEmailAndPassword(formLogin.email, formLogin.password);
+    async login(formLogin: any) {
+        const userCred = await this.auth.signInWithEmailAndPassword(formLogin.email, formLogin.password);
+        if (!userCred.user.emailVerified) {
+          await this.auth.signOut();
+          console.log("Email non vérifié")
+        }
     }
 
-    public register(formRegister: any) {
-        return this.auth.createUserWithEmailAndPassword(formRegister.email, formRegister.password);
+    async register(formRegister: any) {
+      const userCred = await this.auth.createUserWithEmailAndPassword(formRegister.email, formRegister.password);
+      await userCred.user.sendEmailVerification();
+      this.auth.signOut();
     }
 
     public requestResetPassword(form: any) {
