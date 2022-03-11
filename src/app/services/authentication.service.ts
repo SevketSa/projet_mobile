@@ -21,7 +21,7 @@ export class AuthenticationService {
 
     public getUserId() {
       if(this.auth.user != null) {
-        return this.auth.user.pipe(filter(user => !!user), map(user => user.uid));
+        return this.auth.user.pipe(filter(user => !!user), map(user => user));
       }
     }
 
