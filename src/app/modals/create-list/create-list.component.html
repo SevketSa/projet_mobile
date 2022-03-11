@@ -17,7 +17,14 @@
       <ion-label position="stacked">Nom</ion-label>
       <ion-input type="text" required formControlName="name"></ion-input>
     </ion-item>
+    <ion-item lines="full">
+      <ion-label position="stacked">Read only (separate mail with ";")</ion-label>
+      <ion-input type="text" formControlName="mail_r"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="stacked">Read write (separate mail with ";")</ion-label>
+      <ion-input type="text" formControlName="mail_rw"></ion-input>
+    </ion-item>
     <ion-button (keyup.enter)="addList()" type="submit" expand="block">Submit</ion-button>
   </form>
 </ion-content>
-

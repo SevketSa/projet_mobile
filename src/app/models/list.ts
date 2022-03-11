@@ -8,12 +8,12 @@ export class List {
   canWrite : String[];
   owner : String;
 
-  constructor(name : String, uid : String, id?: number, todos?: Todo[]) {
+  constructor(name : String, uid : String, id?: number, todos?: Todo[], canRead?: String[], canWrite?: String[]) {
     this.id = id ?? Math.floor(Math.random() *100) + Date.now()
     this.name = name;
     this.todos = todos ?? [];
-    this.canRead = [];
-    this.canWrite = [];
+    this.canRead = canRead ?? [];
+    this.canWrite = canWrite ?? [];
     this.owner = uid;
   }
 }
