@@ -24,7 +24,7 @@ export class LoginPage implements OnInit {
       subscribe(uid => {
         if(uid != null) {
           this.router.navigate(['/home']).catch((error) => {
-            console.error("Probleme de redirection vers le /home");
+            console.error("Probleme de redirection vers le /home. Message erreur : "+error.message);
           });
         }
       }
@@ -35,7 +35,7 @@ export class LoginPage implements OnInit {
     });
   }
 
-  private errorMessage(errorCode : string) : string {
+  private static errorMessage(errorCode : string) : string {
     switch (errorCode) {
       case "auth/missing-email" :
         return "Merci de renseigner un email.";
@@ -55,14 +55,14 @@ export class LoginPage implements OnInit {
   }
 
   next() {
-    this.router.navigate(['/home']).catch((error) => console.error("Probleme de redirection vers le /home. Message erreur : "+error));
+    this.router.navigate(['/home']).catch((error) => console.error("Probleme de redirection vers le /home. Message erreur : "+error.message));
   }
 
   loginWGoogle() {
     this.authenticationService.loginWGoogle().then(() =>
         this.next()
     ).catch((error) => {
-      this.authenticationService.presentAlert("Erreur de connexion", this.errorMessage(error.code)).catch((error) => console.error(error));
+      this.authenticationService.presentAlert("Erreur de connexion", LoginPage.errorMessage(error.code)).catch((error) => console.error(error));
     });
   }
 
@@ -70,7 +70,7 @@ export class LoginPage implements OnInit {
     this.authenticationService.loginWFacebook().then(() =>
         this.next()
     ).catch((error) => {
-      this.authenticationService.presentAlert("Erreur de connexion", this.errorMessage(error.code)).catch((error) => console.error(error));
+      this.authenticationService.presentAlert("Erreur de connexion", LoginPage.errorMessage(error.code)).catch((error) => console.error(error));
     });
   }
 
@@ -78,7 +78,7 @@ export class LoginPage implements OnInit {
     this.authenticationService.login(this.ionicForm.value).then(() =>
         this.next()
     ).catch((error) => {
-      this.authenticationService.presentAlert("Erreur de connexion", this.errorMessage(error.code)).catch((error) => console.error(error));
+      this.authenticationService.presentAlert("Erreur de connexion", LoginPage.errorMessage(error.code)).catch((error) => console.error(error));
     });
   }
 }

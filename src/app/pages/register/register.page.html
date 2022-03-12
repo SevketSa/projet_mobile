@@ -15,6 +15,7 @@
         <ion-label position="stacked">Password</ion-label>
         <ion-input type="password" required formControlName="password"></ion-input>
       </ion-item>
+      <app-password-strength-bar id="psb" [passwordToCheck]="this.ionicForm.value.password" [barLabel]="barLabel"></app-password-strength-bar>
       <ion-item lines="full">
         <ion-label position="stacked">Confirm Password</ion-label>
         <ion-input (keyup.enter)="this.register()" type="password" required formControlName="passwordConfirm"></ion-input>

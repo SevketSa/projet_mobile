@@ -10,6 +10,7 @@ import {AuthenticationService} from '../../services/authentication.service';
 export class RegisterPage implements OnInit {
   @ViewChild('itemConfirmPwd') itemConfirmPwd : ElementRef;
   public ionicForm: FormGroup;
+  public barLabel: string = "Password strength:";
 
   constructor(public authenticationService: AuthenticationService,
               public formBuilder: FormBuilder
@@ -23,7 +24,7 @@ export class RegisterPage implements OnInit {
     });
   }
 
-  errorMessage(errorCode: string) : string {
+  public static errorMessage(errorCode: string) : string {
     console.log(errorCode);
     switch (errorCode) {
       case "auth/internal-error" :
@@ -37,10 +38,10 @@ export class RegisterPage implements OnInit {
     }
   }
 
-  register() {
+  public register() {
     if(this.ionicForm.value.password == this.ionicForm.value.passwordConfirm) {
       this.authenticationService.register(this.ionicForm.value).catch(error =>
-          this.authenticationService.presentAlert("Erreur d'enregistrement",this.errorMessage(error.code)).catch((error) => console.error(error))
+          this.authenticationService.presentAlert("Erreur d'enregistrement", RegisterPage.errorMessage(error.code)).catch((error) => console.error(error))
       );
     } else {
       this.authenticationService.presentAlert("Erreur d'enregistrement","Les mots de passes sont différents.").catch((error) => console.error(error));
