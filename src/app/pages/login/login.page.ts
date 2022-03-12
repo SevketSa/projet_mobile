@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {ListService} from "../../services/list.service";
 import {Router} from '@angular/router';
-import {switchMap} from "rxjs/operators";
 
 export interface User { name: string; }
 
@@ -37,17 +35,34 @@ export class LoginPage implements OnInit {
     });
   }
 
+  private errorMessage(errorCode : string) : string {
+    switch (errorCode) {
+      case "auth/missing-email" :
+        return "Merci de renseigner un email.";
+      case "auth/invalid-email" :
+        return "Merci de renseigner un email valide.";
+      case "auth/internal-error" :
+        return "Erreur interne."
+      case "auth/user-not-found" :
+        return "Le compte lié à l'adresse email entrée n'existe pas. <a href='/register'>En creer une ?</a>";
+      case "auth/wrong-password" :
+        return "Mot de passe ou méthode de connexion incorrect.";
+      case "auth/account-exists-with-different-credential" :
+        return "Un compte existe déjà avec cet email, essayez de vous connecter d'une autre manière."
+      default:
+        return errorCode;
+    }
+  }
+
   next() {
-    this.router.navigate(['/home']).catch((error) => {
-      console.error("Probleme de redirection vers le /home");
-    });
+    this.router.navigate(['/home']).catch((error) => console.error("Probleme de redirection vers le /home. Message erreur : "+error));
   }
 
   loginWGoogle() {
     this.authenticationService.loginWGoogle().then(() =>
         this.next()
     ).catch((error) => {
-      console.error("Probleme de connexion avec le compte google ("+error.email+"). Code erreur : "+error.code+". Message erreur : "+error.message);
+      this.authenticationService.presentAlert("Erreur de connexion", this.errorMessage(error.code)).catch((error) => console.error(error));
     });
   }
 
@@ -55,7 +70,7 @@ export class LoginPage implements OnInit {
     this.authenticationService.loginWFacebook().then(() =>
         this.next()
     ).catch((error) => {
-      console.error("Probleme de connexion avec le compte facebook ("+error.email+"). Code erreur : "+error.code+". Message erreur : "+error.message);
+      this.authenticationService.presentAlert("Erreur de connexion", this.errorMessage(error.code)).catch((error) => console.error(error));
     });
   }
 
@@ -63,7 +78,7 @@ export class LoginPage implements OnInit {
     this.authenticationService.login(this.ionicForm.value).then(() =>
         this.next()
     ).catch((error) => {
-      console.error("Probleme de connexion. Code erreur : "+error.code+". Message erreur : "+error.message);
+      this.authenticationService.presentAlert("Erreur de connexion", this.errorMessage(error.code)).catch((error) => console.error(error));
     });
   }
 }

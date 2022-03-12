@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication.service';
 
@@ -8,7 +8,7 @@ import {AuthenticationService} from '../../services/authentication.service';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-
+  @ViewChild('itemConfirmPwd') itemConfirmPwd : ElementRef;
   public ionicForm: FormGroup;
 
   constructor(public authenticationService: AuthenticationService,
@@ -18,11 +18,32 @@ export class RegisterPage implements OnInit {
   ngOnInit() {
     this.ionicForm = new FormGroup({
       email: new FormControl(),
-      password: new FormControl()
+      password: new FormControl(),
+      passwordConfirm: new FormControl()
     });
   }
 
+  errorMessage(errorCode: string) : string {
+    console.log(errorCode);
+    switch (errorCode) {
+      case "auth/internal-error" :
+        return "Erreur interne."
+      case "auth/weak-password" :
+        return "Mot de passe trop faible."
+      case "auth/email-already-in-use" :
+        return "Un compte existe déjà avec cette adresse email. <a href='/login'>Se connecter ?</a>"
+      default:
+        return errorCode;
+    }
+  }
+
   register() {
-    this.authenticationService.register(this.ionicForm.value);
+    if(this.ionicForm.value.password == this.ionicForm.value.passwordConfirm) {
+      this.authenticationService.register(this.ionicForm.value).catch(error =>
+          this.authenticationService.presentAlert("Erreur d'enregistrement",this.errorMessage(error.code)).catch((error) => console.error(error))
+      );
+    } else {
+      this.authenticationService.presentAlert("Erreur d'enregistrement","Les mots de passes sont différents.").catch((error) => console.error(error));
+    }
   }
 }

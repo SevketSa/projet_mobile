@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import {filter, map} from "rxjs/operators";
-
+import {AlertController} from '@ionic/angular';
 export interface Item {
     name: string;
 }
@@ -12,7 +12,8 @@ export interface Item {
 })
 export class AuthenticationService {
 
-    constructor(public auth: AngularFireAuth) {
+    constructor(public auth: AngularFireAuth,
+                public alertController: AlertController) {
     }
 
     public getUser() {
@@ -61,6 +62,16 @@ export class AuthenticationService {
 
     public confirmResetPassword(code: string, newPassword: string) {
         return this.auth.confirmPasswordReset(code, newPassword);
+    }
+
+    async presentAlert(alertHeader: string, alertMessage: string) {
+        const alert = await this.alertController.create({
+            header: alertHeader,
+            message: alertMessage,
+            buttons: ['OK']
+        });
+
+        await alert.present();
     }
 
 }
