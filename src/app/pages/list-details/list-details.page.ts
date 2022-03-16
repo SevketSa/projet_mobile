@@ -6,7 +6,7 @@ import {List} from "../../models/list";
 import {ModalController} from "@ionic/angular";
 import {CreateTodoComponent} from "../../modals/create-todo/create-todo.component";
 import {EMPTY, Observable} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {CreateQrcodeComponent} from "../../modals/create-qrcode/create-qrcode.component";
 
 @Component({
   selector: 'app-list-details',
@@ -44,5 +44,14 @@ export class ListDetailsPage implements OnInit {
     modal.onDidDismiss().then(() => {});
 
     return await modal.present();
+  }
+
+  async shareQRCode(){
+    const modal = await this.modalController.create({
+      component: CreateQrcodeComponent,
+      componentProps:{}
+    });
+      modal.onDidDismiss().then(()=>{});
+      return await modal.present();
   }
 }

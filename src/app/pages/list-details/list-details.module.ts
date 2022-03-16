@@ -9,6 +9,8 @@ import { ListDetailsPageRoutingModule } from './list-details-routing.module';
 import { ListDetailsPage } from './list-details.page';
 import { CreateTodoComponent } from '../../modals/create-todo/create-todo.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import {QRCodeModule} from "angularx-qrcode";
+import {CreateQrcodeComponent} from "../../modals/create-qrcode/create-qrcode.component";
 
 @NgModule({
   imports: [
@@ -17,8 +19,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     IonicModule,
     ListDetailsPageRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    QRCodeModule,
   ],
-    declarations: [ListDetailsPage, CreateTodoComponent]
+    declarations: [ListDetailsPage, CreateTodoComponent, CreateQrcodeComponent]
 })
 export class ListDetailsPageModule {}
