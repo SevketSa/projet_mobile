@@ -18,6 +18,7 @@ export class ListDetailsPage implements OnInit {
   public todos: Todo[] = [];
   public listId?: number;
   public listName?: String;
+  public listComponent: boolean = true;
 
   constructor(public route: ActivatedRoute, public listService : ListService, public modalController: ModalController) { }
 
@@ -27,6 +28,10 @@ export class ListDetailsPage implements OnInit {
       this.listName = list.name;
       this.todos = list.todos;
     });
+  }
+
+  get myDelete() {
+    return this.delete.bind(this);
   }
 
   delete(todoId : number) {
@@ -53,5 +58,9 @@ export class ListDetailsPage implements OnInit {
     });
       modal.onDidDismiss().then(()=>{});
       return await modal.present();
+  }
+
+  changeComponent() {
+    this.listComponent = !this.listComponent;
   }
 }

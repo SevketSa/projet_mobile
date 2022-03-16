@@ -8,16 +8,18 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item-sliding *ngFor="let todo of this.todos;">
-      <ion-item [routerLink]="['/todo-details', this.listId, todo.id]">
-        <ion-label>{{ todo.name }}</ion-label>
-      </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option class="delete" (click)="delete(todo.id)"><ion-icon name="trash"></ion-icon></ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
+  <div id="buttonChangeComponentList">
+    <ion-button (click)="changeComponent()" [disabled]="this.listComponent" expand="full">
+      <ion-icon name="list"></ion-icon>
+      List
+    </ion-button>
+    <ion-button (click)="changeComponent()" [disabled]="!this.listComponent" expand="full">
+      <ion-icon name="stats-chart"></ion-icon>
+      Timeline
+    </ion-button>
+  </div>
+  <app-list-details-list *ngIf="this.listComponent" [delete]="myDelete" [todos]="this.todos" [listId]="this.listId"></app-list-details-list>
+  <app-list-details-graphic *ngIf="!this.listComponent" [delete]="myDelete" [todos]="this.todos" [listId]="this.listId"></app-list-details-graphic>
 </ion-content>
 
 <ion-footer>
