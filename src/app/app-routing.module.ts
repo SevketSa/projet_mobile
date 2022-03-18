@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import {AngularFireAuthGuard, redirectUnauthorizedTo} from '@angular/fire/compat/auth-guard';
+import {BottomTabsPageRoutingModule} from './pages/bottom-tabs/bottom-tabs-routing.module';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 
 const routes: Routes = [
   {
-    path: 'home',
+    path: 'tabs',
     data: {
       authGuardPipe: redirectUnauthorizedToLogin
     },
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
+    loadChildren: () => import('./pages/bottom-tabs/bottom-tabs.module').then( m => m.BottomTabsPageModule),
     canActivate: [AngularFireAuthGuard]
   },
   {
@@ -45,6 +46,10 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
+    path: 'bottom-tabs',
+    loadChildren: () => import('./pages/bottom-tabs/bottom-tabs.module').then( m => m.BottomTabsPageModule)
   },
 
 ];

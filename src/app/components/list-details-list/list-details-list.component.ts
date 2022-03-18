@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Todo} from "../../../models/todo";
+import {Todo} from "../../models/todo";
 
 @Component({
   selector: 'app-list-details-list',

@@ -42,7 +42,7 @@ export class AuthenticationService {
         const userCred = await this.auth.signInWithEmailAndPassword(formLogin.email, formLogin.password);
         if (!userCred.user.emailVerified) {
           await this.auth.signOut();
-          console.log("Email non vérifié")
+            this.presentAlert("Erreur de connexion", "Votre email n'a pas était vérifié. Merci de cliquer sur le lien qui vous a était envoyé par mail au moment de l'inscription.").catch((error) => console.error(error));
         }
     }
 
