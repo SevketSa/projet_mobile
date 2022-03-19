@@ -1,4 +1,4 @@
-import {Component, OnChanges, Input, SimpleChange} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChange} from '@angular/core';
 
 @Component({
   selector: 'app-password-strength-bar',
@@ -58,7 +58,7 @@ export class PasswordStrengthBarComponent implements OnChanges  {
   }
 
   ngOnChanges(changes: {[propName: string]: SimpleChange}): void {
-    var password = changes['passwordToCheck'].currentValue;
+    let password = changes['passwordToCheck'].currentValue;
     this.setBarColors(5, '#DDD');
     if (password) {
       let c = this.getColor(PasswordStrengthBarComponent.measureStrength(password));

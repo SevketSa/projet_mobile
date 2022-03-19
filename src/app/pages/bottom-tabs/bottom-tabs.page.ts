@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CreateListComponent} from '../../modals/create-list/create-list.component';
 import {ModalController} from '@ionic/angular';
 

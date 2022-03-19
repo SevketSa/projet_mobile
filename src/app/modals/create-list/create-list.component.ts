@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ListService} from "../../services/list.service";
 import {List} from "../../models/list";
 import {ModalController} from "@ionic/angular";
 import {AuthenticationService} from "../../services/authentication.service";
-import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-list',
@@ -31,7 +30,7 @@ export class CreateListComponent implements OnInit {
     await this.modalController.dismiss();
   }
 
-  public removeLastChar(s : String) : String {
+  public removeLastChar(s : string) : string {
     return (s[s.length-1]==';') ? (s.substring(0, s.length - 1)) : s;
   }
 
@@ -39,8 +38,8 @@ export class CreateListComponent implements OnInit {
     if(this.ionicForm.value.name != null) {
       this.authenticationService.getUserId().subscribe(
           user => {
-            let listMailR : String[] = [];
-            let listMailRW : String[] = [];
+            let listMailR : string[] = [];
+            let listMailRW : string[] = [];
             if(this.ionicForm.value.mail_r != null) {
               listMailR = this.removeLastChar(this.ionicForm.value.mail_r.replace(/\s/g, "")).split(";");//Suppression des espace et séparation des emails
               listMailR = listMailR.filter(email => email!= user.email);//Suppression de la redondance du mail de l'owner

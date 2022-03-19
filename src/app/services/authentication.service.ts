@@ -3,6 +3,7 @@ import {AngularFireAuth} from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import {filter, map} from "rxjs/operators";
 import {AlertController} from '@ionic/angular';
+
 export interface Item {
     name: string;
 }
@@ -49,7 +50,7 @@ export class AuthenticationService {
     async register(formRegister: any) {
       const userCred = await this.auth.createUserWithEmailAndPassword(formRegister.email, formRegister.password);
       await userCred.user.sendEmailVerification();
-      this.auth.signOut();
+      this.auth.signOut().catch(error => console.log("Erreur lors de la deconnexion. "+error));
     }
 
     public requestResetPassword(form: any) {

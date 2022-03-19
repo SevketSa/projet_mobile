@@ -12,7 +12,7 @@ import {AuthenticationService} from '../services/authentication.service';
 })
 export class HomePage {
     lists: Observable<[List[], List[]]> = EMPTY;
-    type: String[] = ["Write", "Read Only"];
+    type: string[] = ["Write", "Read Only"];
     name: string = "List";
 
     constructor(public route: ActivatedRoute,
@@ -31,11 +31,10 @@ export class HomePage {
 
     logout() {
         this.authenticationService.logout().catch((error) => {
-            console.error("Probleme de deconnexion");
+            console.error("Probleme de deconnexion. "+error);
         });
         this.router.navigate(['/login']).catch((error) => {
-            console.error("Probleme de redirection vers le /login");
+            console.error("Probleme de redirection vers le /login. "+error);
         });
-        ;
     }
 }

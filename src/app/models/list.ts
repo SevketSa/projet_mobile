@@ -2,13 +2,13 @@ import {Todo} from "./todo";
 
 export class List {
   id : number;
-  name : String;
+  name : string;
   todos : Todo[];
-  canRead : String[];
-  canWrite : String[];
-  owner : String;
+  canRead : string[];
+  canWrite : string[];
+  owner : string;
 
-  constructor(name : String, uid : String, id?: number, todos?: Todo[], canRead?: String[], canWrite?: String[]) {
+  constructor(name : string, uid : string, id?: number, todos?: Todo[], canRead?: string[], canWrite?: string[]) {
     this.id = id ?? Math.floor(Math.random() *100) + Date.now()
     this.name = name;
     this.todos = todos ?? [];

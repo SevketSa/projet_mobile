@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ListService} from "../../services/list.service";
 import {Todo} from "../../models/todo";
 import {List} from "../../models/list";
 import {ModalController} from "@ionic/angular";
 import {CreateTodoComponent} from "../../modals/create-todo/create-todo.component";
-import {EMPTY, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {CreateQrcodeComponent} from "../../modals/create-qrcode/create-qrcode.component";
 
 @Component({
@@ -17,7 +17,7 @@ export class ListDetailsPage implements OnInit {
   public list: Observable<List>;
   public todos: Todo[] = [];
   public listId?: number;
-  public listName?: String;
+  public listName?: string;
   public listComponent: boolean = true;
 
   constructor(public route: ActivatedRoute, public listService : ListService, public modalController: ModalController) { }
