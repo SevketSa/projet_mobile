@@ -18,6 +18,13 @@
       <ion-input type="text" required formControlName="name"></ion-input>
     </ion-item>
     <ion-item lines="full">
+      <ion-label position="stacked">Estimate (Xj or Xh)</ion-label>
+      <ion-input type="text" required formControlName="estimate" pattern="^[0-9]*(j|h)$"></ion-input>
+      <div *ngIf="this.ionicForm.value.estimate != null && this.ionicForm.get('estimate').errors?.pattern">
+        Estimate not valid
+      </div>
+    </ion-item>
+    <ion-item lines="full">
       <ion-label position="stacked">Description</ion-label>
       <ion-textarea type="text" formControlName="description"></ion-textarea>
     </ion-item>

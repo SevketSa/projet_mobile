@@ -3,10 +3,11 @@ import {List} from "../models/list";
 import {Todo} from "../models/todo";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
-import {combineLatest, Observable, of} from "rxjs";
+import {combineLatest, Observable} from "rxjs";
 import {deleteDoc, doc, setDoc} from "@angular/fire/firestore";
 import {AuthenticationService} from './authentication.service';
-import {combineAll, map, switchMap} from "rxjs/operators";
+import {map, switchMap} from "rxjs/operators";
+import {formatDate} from '@angular/common';
 
 @Injectable({
     providedIn: 'root'
@@ -56,7 +57,7 @@ export class ListService {
             owner: list.owner,
             canRead: list.canRead,
             canWrite: list.canWrite
-        })
+        }).catch(error => console.log("Erreur lors de la création d'un document List ! "+error))
     }
 
     public createTodo(todo: Todo, listId: number) {
@@ -65,16 +66,30 @@ export class ListService {
             id: todo.id,
             name: todo.name,
             isDone: todo.isDone,
-            description: todo.description
-        });
+            description: todo.description,
+            estimate: todo.estimate,
+            create: todo.create,
+            start: "",
+            end: ""
+        }).catch(error => console.log("Erreur lors de la création d'un document Todo ! "+error));
     }
 
-    public delete(listId: number) {
-        deleteDoc(doc(this.afs.firestore, "lists", listId.toString()));
+    public updateTodo(todo: any, todoId: number, listId: number) {
+        this.afs.firestore.doc('lists/' + listId.toString() + '/todos/' + todoId.toString()).update({
+            name: todo.name ? todo.name : "",
+            isDone: todo.isDone ? todo.isDone : false,
+            description: todo.description ? todo.description : "",
+            start: todo.start ? todo.start : "",
+            end: todo.end ? todo.end : ""
+        }).catch( e => console.log(e))
+    }
+
+    public  delete(listId: number) {
+        deleteDoc(doc(this.afs.firestore, "lists", listId.toString())).catch(error => console.log("Erreur lors de la suppression d'un document List ! "+error));
     }
 
     public deleteTodo(listId: number, todoId: number) {
         const todoRef = this.afs.firestore.doc('lists/'+listId.toString())
-        deleteDoc(doc(todoRef, "todos", todoId.toString()));
+        deleteDoc(doc(todoRef, "todos", todoId.toString())).catch(error => console.log("Erreur lors de la suppression d'un document Todo ! "+error));
     }
 }

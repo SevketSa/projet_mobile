@@ -3,6 +3,7 @@ import {AngularFireAuth} from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import {filter, map} from "rxjs/operators";
 import {AlertController} from '@ionic/angular';
+
 export interface Item {
     name: string;
 }
@@ -42,14 +43,14 @@ export class AuthenticationService {
         const userCred = await this.auth.signInWithEmailAndPassword(formLogin.email, formLogin.password);
         if (!userCred.user.emailVerified) {
           await this.auth.signOut();
-          console.log("Email non vérifié")
+            this.presentAlert("Erreur de connexion", "Votre email n'a pas était vérifié. Merci de cliquer sur le lien qui vous a était envoyé par mail au moment de l'inscription.").catch((error) => console.error(error));
         }
     }
 
     async register(formRegister: any) {
       const userCred = await this.auth.createUserWithEmailAndPassword(formRegister.email, formRegister.password);
       await userCred.user.sendEmailVerification();
-      this.auth.signOut();
+      this.auth.signOut().catch(error => console.log("Erreur lors de la deconnexion. "+error));
     }
 
     public requestResetPassword(form: any) {

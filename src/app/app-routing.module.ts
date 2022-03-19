@@ -6,11 +6,11 @@ const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 
 const routes: Routes = [
   {
-    path: 'home',
+    path: 'tabs',
     data: {
       authGuardPipe: redirectUnauthorizedToLogin
     },
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
+    loadChildren: () => import('./pages/bottom-tabs/bottom-tabs.module').then( m => m.BottomTabsPageModule),
     canActivate: [AngularFireAuthGuard]
   },
   {
@@ -45,6 +45,10 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
+    path: 'bottom-tabs',
+    loadChildren: () => import('./pages/bottom-tabs/bottom-tabs.module').then( m => m.BottomTabsPageModule)
   },
 
 ];

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ListService} from "../../services/list.service";
 import {ModalController, NavParams} from "@ionic/angular";
 import {Todo} from "../../models/todo";
@@ -19,7 +19,8 @@ export class CreateTodoComponent implements OnInit {
     this.listId = this.navParams.data.listId;
     this.ionicForm = new FormGroup({
       name: new FormControl(),
-      description: new FormControl()
+      description: new FormControl(),
+      estimate: new FormControl()
     });
   }
 
@@ -28,9 +29,9 @@ export class CreateTodoComponent implements OnInit {
   }
 
   addTodo() {
-    if(this.ionicForm.value.name != null) {
-      this.listService.createTodo(new Todo(this.ionicForm.value.name, this.ionicForm.value.description), this.listId);
-      this.closeModal();
+    if(this.ionicForm.value.name != null && this.ionicForm.value.estimate != null && !this.ionicForm.get('estimate').errors?.pattern) {
+      this.listService.createTodo(new Todo(this.ionicForm.value.name, this.ionicForm.value.estimate, this.ionicForm.value.description), this.listId);
+      this.closeModal().catch(e => console.log(e));
     }
   }
 }

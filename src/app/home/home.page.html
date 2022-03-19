@@ -13,7 +13,7 @@
       <ion-label>{{ this.type[index] }}</ion-label>
     </ion-item-divider>
     <ion-item-sliding *ngFor="let list of lists;">
-      <ion-item lines="full" [routerLink]="['/list-details', list.id]">
+      <ion-item button="true" lines="full" [routerLink]="['/list-details', list.id]">
         <ion-label>{{ list.name }}</ion-label>
         <ion-icon *ngIf="index == 0" class="list-write" name="brush"></ion-icon>
         <ion-icon class="list-read" name="eye"></ion-icon>
@@ -25,10 +25,3 @@
     </ion-item-sliding>
   </ion-item-group>
 </ion-content>
-
-
-<ion-footer>
-  <ion-button (click)="openModal()" expand="block">Add a new list</ion-button>
-</ion-footer>
-
-

@@ -23,8 +23,8 @@ export class LoginPage implements OnInit {
     this.authenticationService.getUserId().
       subscribe(uid => {
         if(uid != null) {
-          this.router.navigate(['/home']).catch((error) => {
-            console.error("Probleme de redirection vers le /home. Message erreur : "+error.message);
+          this.router.navigate(['/tabs/home']).catch((error) => {
+            console.error("Probleme de redirection vers le /tabs/home. Message erreur : "+error.message);
           });
         }
       }
@@ -55,7 +55,7 @@ export class LoginPage implements OnInit {
   }
 
   next() {
-    this.router.navigate(['/home']).catch((error) => console.error("Probleme de redirection vers le /home. Message erreur : "+error.message));
+    this.router.navigate(['/tabs/home']).catch((error) => console.error("Probleme de redirection vers le /tabs/home. Message erreur : "+error.message));
   }
 
   loginWGoogle() {
