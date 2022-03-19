@@ -4,6 +4,7 @@ import {ActivatedRoute} from "@angular/router";
 import {Todo} from "../../models/todo";
 import {Observable} from 'rxjs';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-todo-details',
@@ -49,13 +50,30 @@ export class TodoDetailsPage implements OnInit {
     });
   }
 
-  ngAfterViewInit(){
-    this.ionicForm.valueChanges.subscribe(value => this.updateTodo(value));
+  updateTodo() {
+    if(this.ionicForm.value.name != null) {
+      if(this.ionicForm.value.isDone && this.ionicForm.getRawValue().start === undefined){
+        this.startTodo();
+      }
+      this.listService.updateTodo(this.ionicForm.getRawValue(), this.todoId, this.listId);
+    }
   }
 
-  updateTodo(value: any) {
-    if(value.name != null) {
-      this.listService.updateTodo(value, this.todoId, this.listId);
+  startTodo(){
+    let type = this.estimate.charAt(this.estimate.length-1)
+    let timeToAdd : number = +this.estimate.substring(0, this.estimate.length-1);
+    let date = new Date();
+    let newDate : string;
+    this.ionicForm.controls['start'].setValue(formatDate(date, 'yyyy-MM-ddTHH:mm:ss', 'en'));
+    switch (type) {
+      case 'j' :
+        newDate = formatDate(date.setDate(date.getDate() + timeToAdd), 'yyyy-MM-ddTHH:mm:ss', 'en');
+        break;
+      case 'h' :
+        newDate = formatDate(date.setHours(date.getHours() + timeToAdd), 'yyyy-MM-ddTHH:mm:ss', 'en');
+        break;
     }
+    this.ionicForm.controls['end'].setValue(newDate);
+    this.updateTodo();
   }
 }

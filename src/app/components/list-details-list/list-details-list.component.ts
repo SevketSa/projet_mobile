@@ -14,4 +14,18 @@ export class ListDetailsListComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  whichColor(todo : Todo) {
+    if(!todo.isDone && todo.start != "") {
+      let delta = (new Date(todo.end).getTime() - new Date(todo.start).getTime())/3;//Interval
+      let res = (new Date().getTime() - new Date(todo.start).getTime());
+      if(res <= delta*2) {
+        return "warning";
+      } else if (res > delta *2) {
+        return "danger";
+      }
+    } else if (todo.isDone) {
+      return "success";
+    }
+  }
 }

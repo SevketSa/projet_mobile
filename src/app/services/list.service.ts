@@ -7,6 +7,7 @@ import {combineLatest, Observable} from "rxjs";
 import {deleteDoc, doc, setDoc} from "@angular/fire/firestore";
 import {AuthenticationService} from './authentication.service';
 import {map, switchMap} from "rxjs/operators";
+import {formatDate} from '@angular/common';
 
 @Injectable({
     providedIn: 'root'
@@ -68,17 +69,18 @@ export class ListService {
             description: todo.description,
             estimate: todo.estimate,
             create: todo.create,
-            start: null,
-            end: todo.end
+            start: "",
+            end: ""
         }).catch(error => console.log("Erreur lors de la création d'un document Todo ! "+error));
     }
 
     public updateTodo(todo: any, todoId: number, listId: number) {
-        console.log("update");
         this.afs.firestore.doc('lists/' + listId.toString() + '/todos/' + todoId.toString()).update({
-            name: todo.name,
+            name: todo.name ? todo.name : "",
             isDone: todo.isDone ? todo.isDone : false,
-            description: todo.description,
+            description: todo.description ? todo.description : "",
+            start: todo.start ? todo.start : "",
+            end: todo.end ? todo.end : ""
         }).catch( e => console.log(e))
     }
 

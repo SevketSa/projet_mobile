@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <form [formGroup]="ionicForm" novalidate>
+  <form [formGroup]="ionicForm" (ngSubmit)="updateTodo()" novalidate>
     <ion-item>
       <ion-label position="stacked">Nom</ion-label>
       <ion-input value={{this.name}} formControlName="name"></ion-input>
@@ -36,5 +36,7 @@
       <ion-label>Fait</ion-label>
       <ion-checkbox checked="{{this.isDone}}" formControlName="isDone"></ion-checkbox>
     </ion-item>
+    <ion-button *ngIf="!this.start" (click)="startTodo()">Start todo</ion-button>
+    <ion-button type="submit" expand="block">Save</ion-button>
   </form>
 </ion-content>
