@@ -54,7 +54,9 @@ export class ListDetailsPage implements OnInit {
   async shareQRCode(){
     const modal = await this.modalController.create({
       component: CreateQrcodeComponent,
-      componentProps:{}
+      componentProps:{
+          // Génerer un token et le mettre ici
+        }
     });
       modal.onDidDismiss().then(()=>{});
       return await modal.present();

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { QRCodeModule } from 'angularx-qrcode';
+import {ModalController} from "@ionic/angular";
 
 @Component({
   selector: 'app-create-qrcode',
@@ -8,8 +9,14 @@ import { QRCodeModule } from 'angularx-qrcode';
 })
 export class CreateQrcodeComponent implements OnInit {
 
-  constructor() { }
+  public TokenToShare: string = "QRCode ici";
+  constructor(public modalController: ModalController,) {
+
+  }
 
   ngOnInit() {}
 
+  async closeModal() {
+    await this.modalController.dismiss();
+  }
 }

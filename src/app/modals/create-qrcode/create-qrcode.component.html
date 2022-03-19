@@ -1,15 +1,28 @@
-<ion-item>
-
-  <ion-list>
-      <ion-label>Can Read</ion-label>
-      <ion-checkbox slot="end"></ion-checkbox>
-
-      <ion-label>Can Write</ion-label>
-      <ion-checkbox slot="end"></ion-checkbox>
-  </ion-list>
-
-  <qrcode [qrdata]="'Votre chaîne de caractère QR code'"></qrcode>
-</ion-item>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Montrez ce QRCode pour partager la Todo List !
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        close <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item>
+    <ion-label>Can Read</ion-label>
+    <ion-checkbox slot="end" checked="true" disabled="true"></ion-checkbox>
+  </ion-item>
+  <ion-item>
+    <ion-label>Can Write</ion-label>
+    <ion-checkbox slot="end"></ion-checkbox>
+  </ion-item>
+  <ion-item lines="full">
+      <qrcode class="center" [qrdata]="TokenToShare"></qrcode>
+  </ion-item>
+</ion-content>
 
 
 
