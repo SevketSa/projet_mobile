@@ -3,7 +3,6 @@ export class User {
     firstname : string;
     lastname : string;
     phone : boolean;
-    profilPicture : string;
 
     constructor() {}
 }

@@ -22,10 +22,10 @@
       <ion-label position="stacked">Phone number</ion-label>
       <ion-input (keyup.enter)="updateProfil()"  value="{{ this.phone }}" type="text" formControlName="phone"></ion-input>
     </ion-item>
-    <ion-item lines="full">
-      <img src="{{ this.profilPicture }}" alt="Profil Picture">
-    </ion-item>
     <ion-button type="submit" expand="block">Submit</ion-button>
   </form>
+  <ion-item *ngIf="profilPicture | async as fileUrl" lines="full">
+    <img id="profilPicture" [src]="fileUrl" alt="Profil Picture"/>
+  </ion-item>
   <ion-button (click)="openModal()" expand="block">Change pp</ion-button>
 </ion-content>
