@@ -14,7 +14,6 @@ import {Router} from "@angular/router";
 })
 export class ScanPage implements OnInit {
   scanActive = false;
-  isRead = true;
   token: Observable<Token>;
   canRead : string[] = [];
   canWrite : string[] = [];
@@ -46,8 +45,7 @@ export class ScanPage implements OnInit {
       document.body.style.background = 'transparent';
       const result = await BarcodeScanner.startScan();
 
-      if (result.hasContent && this.isRead) {
-        this.isRead = false;
+      if (result.hasContent) {
         this.scanActive = false;
         this.stopScanner()
         this.authenticationService.getUser().subscribe(user=>{
