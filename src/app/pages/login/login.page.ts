@@ -20,7 +20,7 @@ export class LoginPage implements OnInit {
               public router: Router) { }
 
   ngOnInit() {
-    this.authenticationService.getUserId().
+    this.authenticationService.getUser().
       subscribe(uid => {
         if(uid != null) {
           this.router.navigate(['/tabs/home']).catch((error) => {
@@ -35,7 +35,7 @@ export class LoginPage implements OnInit {
     });
   }
 
-  private static errorMessage(errorCode : string) : string {
+  static errorMessage(errorCode : string) : string {
     switch (errorCode) {
       case "auth/missing-email" :
         return "Merci de renseigner un email.";
@@ -59,19 +59,11 @@ export class LoginPage implements OnInit {
   }
 
   loginWGoogle() {
-    this.authenticationService.loginWGoogle().then(() =>
-        this.next()
-    ).catch((error) => {
-      this.authenticationService.presentAlert("Erreur de connexion", LoginPage.errorMessage(error.code)).catch((error) => console.error(error));
-    });
+    this.authenticationService.loginWGoogle();
   }
 
   loginWFacebook() {
-    this.authenticationService.loginWFacebook().then(() =>
-        this.next()
-    ).catch((error) => {
-      this.authenticationService.presentAlert("Erreur de connexion", LoginPage.errorMessage(error.code)).catch((error) => console.error(error));
-    });
+    this.authenticationService.loginWFacebook();
   }
 
   login() {

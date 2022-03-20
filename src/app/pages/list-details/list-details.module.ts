@@ -18,7 +18,6 @@ import {MbscModule} from '@mobiscroll/angular';
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
     IonicModule,
     ListDetailsPageRoutingModule,
     FormsModule,

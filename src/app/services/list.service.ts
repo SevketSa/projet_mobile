@@ -2,12 +2,10 @@ import {Injectable} from '@angular/core';
 import {List} from "../models/list";
 import {Todo} from "../models/todo";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
-import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {combineLatest, Observable} from "rxjs";
 import {deleteDoc, doc, setDoc} from "@angular/fire/firestore";
 import {AuthenticationService} from './authentication.service';
 import {map, switchMap} from "rxjs/operators";
-import {formatDate} from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +13,11 @@ import {formatDate} from '@angular/common';
 export class ListService {
 
   constructor(public afs: AngularFirestore,
-              public auth: AngularFireAuth,
               private authentication: AuthenticationService) {
   }
 
   public getAll(): Observable<[List[], List[]]> {
-    return this.authentication.getUserId().pipe(
+    return this.authentication.getUser().pipe(
       switchMap( user => {
         const obs1 = this.afs.collection<List>('lists/', ref => ref.where('owner','==',user.uid)).valueChanges();
         const obs2 = this.afs.collection<List>('lists/', ref => ref.where('canWrite', 'array-contains', user.uid)).valueChanges();

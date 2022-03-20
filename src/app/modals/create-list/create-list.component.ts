@@ -36,7 +36,7 @@ export class CreateListComponent implements OnInit {
 
   addList() {
     if(this.ionicForm.value.name != null) {
-      this.authenticationService.getUserId().subscribe(
+      this.authenticationService.getUser().subscribe(
           user => {
             let listMailR : string[] = [];
             let listMailRW : string[] = [];

@@ -1,9 +1,30 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>profil</ion-title>
+    <ion-title>Profil</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <form [formGroup]="ionicForm" (ngSubmit)="updateProfil()" novalidate>
+    <ion-item lines="full">
+      <ion-label position="stacked">Last Name</ion-label>
+      <ion-input (keyup.enter)="updateProfil()"  value="{{ this.lastname }}" type="text" formControlName="lastname"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="stacked">First Name</ion-label>
+      <ion-input (keyup.enter)="updateProfil()"  value="{{ this.firstname }}" type="text" formControlName="firstname"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="stacked">eMail</ion-label>
+      <ion-input (keyup.enter)="updateProfil()"  value="{{ this.email }}" type="text" required formControlName="email"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="stacked">Phone number</ion-label>
+      <ion-input (keyup.enter)="updateProfil()"  value="{{ this.phone }}" type="text" formControlName="phone"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <img src="{{ this.profilPicture }}" alt="Profil Picture">
+    </ion-item>
+    <ion-button type="submit" expand="block">Submit</ion-button>
+  </form>
 </ion-content>
