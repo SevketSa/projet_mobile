@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {Token} from "../../models/token";
 import {AuthenticationService} from "../../services/authentication.service";
 import {Router} from "@angular/router";
+import {first} from 'rxjs/operators';
 
 
 @Component({
@@ -50,7 +51,7 @@ export class ScanPage implements OnInit {
         this.stopScanner()
         this.authenticationService.getUser().subscribe(user=>{
           this.listService.getToken(result.content).subscribe(token => {
-            this.listService.getOne(token.listId).subscribe(list => {
+            this.listService.getOne(token.listId).pipe(first()).subscribe(list => {
               this.canRead = list.canRead;
               this.canRead.push(user.email);
               this.canWrite = list.canWrite;
@@ -60,7 +61,6 @@ export class ScanPage implements OnInit {
               this.listService.updateList(token.listId, this.canRead, this.canWrite);
               this.listService.deleteQRCode(result.content);
               this.router.navigate(['list-details/'+token.listId])
-
             })
           })
         });
