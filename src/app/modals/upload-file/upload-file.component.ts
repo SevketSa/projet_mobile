@@ -5,6 +5,7 @@ import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat
 import {finalize, tap} from 'rxjs/operators';
 import {ModalController, NavParams} from '@ionic/angular';
 import {deleteObject, ref} from '@angular/fire/storage';
+import {Router} from '@angular/router';
 
 export interface FILE {
   name: string;
@@ -35,7 +36,8 @@ export class UploadFileComponent implements OnInit {
       private angularFirestore: AngularFirestore,
       private angularFireStorage: AngularFireStorage,
       public modalController: ModalController,
-      private navParams: NavParams) {
+      private navParams: NavParams,
+      private router: Router) {
     this.userUid = this.navParams.data.userUid;
     this.isImgUploading = false;
     this.isImgUploaded = false;
@@ -59,7 +61,7 @@ export class UploadFileComponent implements OnInit {
 
     this.FileName = file.name;
 
-    this.fileStoragePath = `filesStorage/${this.userUid}`;
+    this.fileStoragePath = `${this.userUid}`;
 
     const imageRef = this.angularFireStorage.ref(this.fileStoragePath);
 
@@ -99,6 +101,7 @@ export class UploadFileComponent implements OnInit {
   }
 
   async closeModal() {
+    window.location.href = "/tabs/profil";
     await this.modalController.dismiss();
   }
 
