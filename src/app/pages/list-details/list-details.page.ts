@@ -61,7 +61,7 @@ export class ListDetailsPage implements OnInit {
 
   async shareQRCode(){
     const token = uuid.v4();
-    this.listService.createQRToken(token);
+    this.listService.createQRToken(token, this.listId);
     const modal = await this.modalController.create({
       component: CreateQrcodeComponent,
       componentProps:{

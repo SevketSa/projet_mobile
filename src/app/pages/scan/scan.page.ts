@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
+import {ListService} from "../../services/list.service";
+import {Observable} from "rxjs";
+import {Token} from "../../models/token";
+import {AuthenticationService} from "../../services/authentication.service";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -9,8 +14,13 @@ import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 })
 export class ScanPage implements OnInit {
   scanActive = false;
+  token: Observable<Token>;
+  canRead : string[] = [];
+  canWrite : string[] = [];
 
-  constructor() { }
+  constructor(public listService: ListService,
+              public authenticationService: AuthenticationService,
+              public router: Router) { }
 
   ngOnInit() {
   }
@@ -32,13 +42,26 @@ export class ScanPage implements OnInit {
     if (allowed) {
       this.scanActive = true;
       BarcodeScanner.hideBackground();
-
+      document.body.style.background = 'transparent';
       const result = await BarcodeScanner.startScan();
 
       if (result.hasContent) {
         this.scanActive = false;
-        alert(result.content); //The QR content will come out here
-        //Handle the data as your heart desires here
+        this.authenticationService.getUser().subscribe(user=>{
+          this.listService.getToken(result.content).subscribe(token => {
+            this.listService.getOne(token.listId).subscribe(list => {
+              this.canRead = list.canRead;
+              this.canRead.push(user.email);
+              this.canWrite = list.canWrite;
+              if(token.canWrite){
+                this.canWrite.push(user.email)
+              }
+              this.listService.updateList(token.listId, this.canRead, this.canWrite);
+              this.listService.deleteQRCode(result.content);
+              this.router.navigate(['list-details/'+token.listId])
+            })
+          })
+        })
       } else {
         alert('NO DATA FOUND!');
       }

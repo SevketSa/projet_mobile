@@ -6,6 +6,8 @@ import {combineLatest, Observable} from "rxjs";
 import {deleteDoc, doc, setDoc} from "@angular/fire/firestore";
 import {AuthenticationService} from './authentication.service';
 import {map, switchMap} from "rxjs/operators";
+import {formatDate} from "@angular/common";
+import {Token} from "../models/token";
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +49,10 @@ export class ListService {
     return this.afs.doc<Todo>('lists/' + listId + '/todos/' + todoId).valueChanges();
   }
 
+  public getToken(token: string): Observable<Token> {
+    return this.afs.doc<Token>('QRToken/' + token ).valueChanges();
+  }
+
   public create(list: List) {
     setDoc(doc(this.afs.firestore, 'lists', list.id.toString()), {
       id: list.id,
@@ -71,9 +77,11 @@ export class ListService {
     }).catch(error => console.log("Erreur lors de la création d'un document Todo ! "+error));
   }
 
-  public createQRToken(myId: string, ) {
+  public createQRToken(myId: string, listId: number ) {
     setDoc(doc(this.afs.firestore, 'QRToken', myId), {
-      canWrite: false
+      canWrite: false,
+      created: formatDate(new Date(), 'yyyy-MM-ddTHH:mm:ss', 'en'),
+      listId: listId,
     })
       .catch(error => console.log("Erreur lors de la création du token ! " +error))
   }
@@ -86,6 +94,13 @@ export class ListService {
       description: todo.description ? todo.description : "",
       start: todo.start ? todo.start : "",
       end: todo.end ? todo.end : ""
+    }).catch( e => console.log(e))
+  }
+
+  public updateList(listId: number, canRead: string[], canWrite: string[]) {
+    this.afs.firestore.doc('lists/' + listId.toString()).update({
+      canRead: canRead,
+      canWrite: canWrite
     }).catch( e => console.log(e))
   }
 
@@ -102,5 +117,9 @@ export class ListService {
   public deleteTodo(listId: number, todoId: number) {
     const todoRef = this.afs.firestore.doc('lists/'+listId.toString())
     deleteDoc(doc(todoRef, "todos", todoId.toString())).catch(error => console.log("Erreur lors de la suppression d'un document Todo ! "+error));
+  }
+
+  public deleteQRCode(token: string) {
+    deleteDoc(doc(this.afs.firestore, "QRToken", token)).catch(error => console.log("Erreur lors de la suppression d'un document QRToken ! "+error));
   }
 }
