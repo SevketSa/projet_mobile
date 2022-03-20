@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {ModalController} from '@ionic/angular';
+import {UploadFileComponent} from '../../modals/upload-file/upload-file.component';
 
 @Component({
   selector: 'app-profil',
@@ -14,9 +16,11 @@ export class ProfilPage implements OnInit {
   public phone : boolean;
   public profilPicture : string;
   public ionicForm : FormGroup;
+  private userUid: string;
 
   constructor(public formBuilder: FormBuilder,
-              private authentication: AuthenticationService) { }
+              private authentication: AuthenticationService,
+              public modalController: ModalController) { }
 
   ngOnInit() {
     this.authentication.getUserFirestore().subscribe(user => {
@@ -32,9 +36,23 @@ export class ProfilPage implements OnInit {
       lastname : new FormControl(),
       phone : new FormControl()
     });
+    this.authentication.getUser().subscribe(user => this.userUid = user.uid);
   }
 
   updateProfil() {
     this.authentication.updateUser(this.ionicForm.getRawValue());
+  }
+
+  async openModal() {
+    const modal = await this.modalController.create({
+      component: UploadFileComponent,
+      componentProps: {
+        "userUid": this.userUid
+      }
+    });
+
+    modal.onDidDismiss().then(() => {});
+
+    return await modal.present();
   }
 }
