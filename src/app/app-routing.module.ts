@@ -48,7 +48,13 @@ const routes: Routes = [
   },
   {
     path: 'bottom-tabs',
-    loadChildren: () => import('./pages/bottom-tabs/bottom-tabs.module').then( m => m.BottomTabsPageModule)
+    loadChildren: () => import('./pages/bottom-tabs/bottom-tabs.module').then( m => m.BottomTabsPageModule),
+    canActivate: [AngularFireAuthGuard]
+  },
+  {
+    path: 'token/:token',
+    loadChildren: () => import('./pages/token/token.module').then( m => m.TokenPageModule),
+    canActivate: [AngularFireAuthGuard]
   },
 
 ];
