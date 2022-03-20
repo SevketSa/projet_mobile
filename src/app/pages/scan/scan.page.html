@@ -1,9 +1,20 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>scan</ion-title>
+    <ion-title> Blank </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content
+  [fullscreen]="true"
+  [style.--background]="scanActive?'#000000ff':'#ffffff'"
+>
+  <ion-button expand="full" (click)="startScanner()" [hidden]="scanActive">
+    SCAN
+  </ion-button>
+  <ion-row class="scan-button" [hidden]="!scanActive">
+    <ion-col class="ion-no-padding">
+      <ion-button expand="full" (click)="stopScanner()">Stop</ion-button>
+    </ion-col>
+  </ion-row>
+  <div class="scan-box" [hidden]="!scanActive"></div>
 </ion-content>
