@@ -50,6 +50,18 @@ const routes: Routes = [
     path: 'bottom-tabs',
     loadChildren: () => import('./pages/bottom-tabs/bottom-tabs.module').then( m => m.BottomTabsPageModule)
   },
+  {
+    path: 'profil',
+    loadChildren: () => import('./pages/profil/profil.module').then( m => m.ProfilPageModule)
+  },
+  {
+    path: 'notifications',
+    loadChildren: () => import('./pages/notifications/notifications.module').then( m => m.NotificationsPageModule)
+  },
+  {
+    path: 'scan',
+    loadChildren: () => import('./pages/scan/scan.module').then( m => m.ScanPageModule)
+  },
 
 ];
 
