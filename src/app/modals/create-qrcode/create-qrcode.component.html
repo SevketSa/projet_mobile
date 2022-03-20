@@ -11,17 +11,19 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-item>
-    <ion-label>Can Read</ion-label>
-    <ion-checkbox slot="end" checked="true" disabled="true"></ion-checkbox>
-  </ion-item>
-  <ion-item>
-    <ion-label>Can Write</ion-label>
-    <ion-checkbox slot="end"></ion-checkbox>
-  </ion-item>
-  <ion-item lines="full">
-      <qrcode class="center" [qrdata]="TokenToShare"></qrcode>
-  </ion-item>
+  <form [formGroup]="ionicForm" novalidate>
+    <ion-item>
+      <ion-label>Can Read</ion-label>
+      <ion-checkbox formControlName="canRead" checked="true"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Can Write</ion-label>
+      <ion-checkbox formControlName="canWrite"></ion-checkbox>
+    </ion-item>
+    <ion-item lines="full">
+      <qrcode class="center" [qrdata]="this.TokenToShare"></qrcode>
+    </ion-item>
+  </form>
 </ion-content>
 
 

@@ -7,6 +7,8 @@ import {ModalController} from "@ionic/angular";
 import {CreateTodoComponent} from "../../modals/create-todo/create-todo.component";
 import {Observable} from 'rxjs';
 import {CreateQrcodeComponent} from "../../modals/create-qrcode/create-qrcode.component";
+import * as uuid from 'uuid';
+import {AngularFirestore} from "@angular/fire/compat/firestore";
 
 @Component({
   selector: 'app-list-details',
@@ -20,7 +22,11 @@ export class ListDetailsPage implements OnInit {
   public listName?: string;
   public listComponent: boolean = true;
 
-  constructor(public route: ActivatedRoute, public listService : ListService, public modalController: ModalController) { }
+  constructor(public route: ActivatedRoute,
+              public listService : ListService,
+              public modalController: ModalController,
+              public afs: AngularFirestore,
+              ) { }
 
   ngOnInit() {
     this.listService.getOne(+this.route.snapshot.paramMap.get("id")).subscribe(list => {
@@ -51,11 +57,15 @@ export class ListDetailsPage implements OnInit {
     return await modal.present();
   }
 
+
+
   async shareQRCode(){
+    const token = uuid.v4();
+    this.listService.createQRToken(token);
     const modal = await this.modalController.create({
       component: CreateQrcodeComponent,
       componentProps:{
-          // Génerer un token et le mettre ici
+        "myToken": token
         }
     });
       modal.onDidDismiss().then(()=>{});
