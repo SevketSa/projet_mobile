@@ -14,6 +14,7 @@ import {Router} from "@angular/router";
 })
 export class ScanPage implements OnInit {
   scanActive = false;
+  isRead = true;
   token: Observable<Token>;
   canRead : string[] = [];
   canWrite : string[] = [];
@@ -45,8 +46,10 @@ export class ScanPage implements OnInit {
       document.body.style.background = 'transparent';
       const result = await BarcodeScanner.startScan();
 
-      if (result.hasContent) {
+      if (result.hasContent && this.isRead) {
+        this.isRead = false;
         this.scanActive = false;
+        this.stopScanner()
         this.authenticationService.getUser().subscribe(user=>{
           this.listService.getToken(result.content).subscribe(token => {
             this.listService.getOne(token.listId).subscribe(list => {
@@ -59,11 +62,10 @@ export class ScanPage implements OnInit {
               this.listService.updateList(token.listId, this.canRead, this.canWrite);
               this.listService.deleteQRCode(result.content);
               this.router.navigate(['list-details/'+token.listId])
+
             })
           })
-        })
-      } else {
-        alert('NO DATA FOUND!');
+        });
       }
     } else {
       alert('NOT ALLOWED!');
