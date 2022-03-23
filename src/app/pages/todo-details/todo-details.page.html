@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <form [formGroup]="ionicForm" (ngSubmit)="updateTodo()" novalidate>
+  <form [formGroup]="ionicForm" (ngSubmit)="submitForm()" novalidate>
     <ion-item>
       <ion-label position="stacked">Nom</ion-label>
       <ion-input value={{this.name}} formControlName="name"></ion-input>
@@ -18,11 +18,11 @@
     </ion-item>
     <ion-item>
       <ion-label position="stacked">Date de création</ion-label>
-      <ion-input value={{this.create}} formControlName="create"></ion-input>
+      <ion-input formControlName="create"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="stacked">Date de début :</ion-label>
-      <ion-input value={{this.start}} formControlName="start"></ion-input>
+      <ion-input formControlName="start"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="stacked">Estimation de temps :</ion-label>
@@ -30,7 +30,7 @@
     </ion-item>
     <ion-item>
       <ion-label position="stacked">Date de fin :</ion-label>
-      <ion-input value={{this.end}} formControlName="end"></ion-input>
+      <ion-input formControlName="end"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Fait</ion-label>

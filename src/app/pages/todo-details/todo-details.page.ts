@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ListService} from "../../services/list.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Todo} from "../../models/todo";
 import {Observable} from 'rxjs';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {formatDate} from '@angular/common';
+import {AuthenticationService} from '../../services/authentication.service';
 
 @Component({
   selector: 'app-todo-details',
@@ -19,44 +20,59 @@ export class TodoDetailsPage implements OnInit {
   public name : string;
   public description : string;
   public isDone : boolean;
-  public create: string;
-  public start: string;
+  public create: string = "";
+  public start: string = "";
   public estimate : string;
-  public end: string;
+  public end: string = "";
 
   constructor(public route: ActivatedRoute,
               public listService : ListService,
-              public formBuilder: FormBuilder) { }
+              public formBuilder: FormBuilder,
+              public router: Router,
+              public authenticationService: AuthenticationService) { }
 
   ngOnInit() {
+    this.ionicForm = new FormGroup({
+      name: new FormControl(),
+      description: new FormControl(),
+      isDone: new FormControl(),
+      end: new FormControl({value: "", disabled: true}),
+      estimate: new FormControl({value: this.estimate, disabled: true}),
+      start: new FormControl({value: "", disabled: true}),
+      create: new FormControl({value: "", disabled: true})
+    });
     this.todo = this.listService.getOneTodo(this.listId, this.todoId);
     this.todo.subscribe(todo => {
       this.name = todo.name;
       this.isDone = todo.isDone;
       this.description = todo.description;
-      this.create = todo.create;
+      this.create = todo.create
       this.start = todo.start;
       this.end = todo.end;
       this.estimate = todo.estimate;
-    });
-    this.ionicForm = new FormGroup({
-      name: new FormControl(),
-      description: new FormControl(),
-      isDone: new FormControl(),
-      end: new FormControl({value: this.end, disabled: true}),
-      estimate: new FormControl({value: this.estimate, disabled: true}),
-      start: new FormControl({value: this.start, disabled: true}),
-      create: new FormControl({value: this.create, disabled: true})
+      this.ionicForm.controls['create'].setValue(todo.create == "" ? "" : formatDate(new Date(todo.create), 'EEEE dd MMMM YYYY - HH:mm:ss', 'fr'));
+      this.ionicForm.controls['start'].setValue(todo.start == "" ? "" : formatDate(new Date(todo.start), 'EEEE dd MMMM YYYY - HH:mm:ss', 'fr'));
+      this.ionicForm.controls['end'].setValue(todo.end == "" ? "" : formatDate(new Date(todo.end), 'EEEE dd MMMM YYYY - HH:mm:ss', 'fr'));
     });
   }
 
-  updateTodo() {
+  submitForm() {
     if(this.ionicForm.value.name != null) {
-      if(this.ionicForm.value.isDone && this.ionicForm.getRawValue().start === undefined){
+      if(this.ionicForm.value.isDone && this.ionicForm.getRawValue().start == ""){ //Valide la fin de la tache sans l'avoir commencé
         this.startTodo();
+      } else {
+        this.ionicForm.controls['start'].setValue(this.start);
+        this.ionicForm.controls['end'].setValue(this.end);
+        this.updateTodo();
       }
-      this.listService.updateTodo(this.ionicForm.getRawValue(), this.todoId, this.listId);
     }
+  }
+
+  updateTodo() {
+    this.listService.updateTodo(this.ionicForm.getRawValue(), this.todoId, this.listId);
+    this.router.navigate(['/list-details/'+this.listId]).then(() =>
+        this.authenticationService.presentAlert("Sauvegarde de la tâche","Les modifications apportées à la tâche ont bien été appliqués.").catch((e) => console.log(e))
+    );
   }
 
   startTodo(){
