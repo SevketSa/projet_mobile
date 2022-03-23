@@ -60,6 +60,9 @@ export class ListService {
       canRead: list.canRead,
       canWrite: list.canWrite
     }).catch(error => console.log("Erreur lors de la création d'un document List ! "+error))
+        .then(() => {
+          this.authentication.presentAlert("Création réussi !","La liste <b>"+list.name+"</b> a été ajoutée.")
+        });
   }
 
   public createTodo(todo: Todo, listId: number) {
@@ -73,7 +76,10 @@ export class ListService {
       create: todo.create,
       start: "",
       end: ""
-    }).catch(error => console.log("Erreur lors de la création d'un document Todo ! "+error));
+    }).catch(error => console.log("Erreur lors de la création d'un document Todo ! "+error))
+        .then(() => {
+          this.authentication.presentAlert("Création réussi","La tâche <b>"+todo.name+"</b> a été ajoutée.")
+        });
   }
 
   public createQRToken(myId: string, listId: number ) {

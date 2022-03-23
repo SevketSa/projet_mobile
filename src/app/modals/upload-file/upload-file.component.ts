@@ -6,6 +6,7 @@ import {finalize, tap} from 'rxjs/operators';
 import {ModalController, NavParams} from '@ionic/angular';
 import {deleteObject, ref} from '@angular/fire/storage';
 import {Router} from '@angular/router';
+import {AuthenticationService} from '../../services/authentication.service';
 
 export interface FILE {
   name: string;
@@ -37,7 +38,7 @@ export class UploadFileComponent implements OnInit {
       private angularFireStorage: AngularFireStorage,
       public modalController: ModalController,
       private navParams: NavParams,
-      private router: Router) {
+      private authenticationService: AuthenticationService) {
     this.userUid = this.navParams.data.userUid;
     this.isImgUploading = false;
     this.isImgUploaded = false;
@@ -52,7 +53,7 @@ export class UploadFileComponent implements OnInit {
     const file = event.item(0)
 
     if (file.type.split('/')[0] !== 'image') {
-      console.log('File type is not supported!')
+      this.authenticationService.presentAlert('Erreur de transfert', 'Type de fichier non supporté.').catch(e => console.error(e));
       return;
     }
 

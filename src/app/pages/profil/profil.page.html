@@ -9,34 +9,30 @@
   <div class="card">
     <div class="header">
       <div class="avatar">
+        <button (click)="openModal()" expand="block"><ion-icon slot="icon-only" name="brush"></ion-icon></button>
         <img *ngIf="profilPicture | async as fileUrl" [src]="fileUrl" alt="Profil Picture">
       </div>
     </div>
   </div>
-<!--  <ion-item *ngIf="profilPicture | async as fileUrl" lines="full">-->
-<!--    <img id="profilPicture" [src]="fileUrl" alt="Profil Picture"/>-->
-<!--  </ion-item>-->
-<!--  <ion-button (click)="openModal()" expand="block">Change pp</ion-button>-->
-<!--  -->
 
   <form class="card-body" [formGroup]="ionicForm" (ngSubmit)="updateProfil()" novalidate>
     <ion-item lines="full">
-      <ion-label position="stacked">Last Name</ion-label>
-      <ion-input (keyup.enter)="updateProfil()"  value="{{ this.lastname }}" type="text" formControlName="lastname"></ion-input>
+      <ion-label position="stacked">Nom</ion-label>
+      <ion-input (keyup.enter)="updateProfil()" value="{{ this.lastname }}" type="text" formControlName="lastname"></ion-input>
     </ion-item>
     <ion-item lines="full">
-      <ion-label position="stacked">First Name</ion-label>
-      <ion-input (keyup.enter)="updateProfil()"  value="{{ this.firstname }}" type="text" formControlName="firstname"></ion-input>
+      <ion-label position="stacked">Prénom</ion-label>
+      <ion-input (keyup.enter)="updateProfil()" value="{{ this.firstname }}" type="text" formControlName="firstname"></ion-input>
     </ion-item>
     <ion-item lines="full">
       <ion-label position="stacked">Mail</ion-label>
-      <ion-input (keyup.enter)="updateProfil()"  value="{{ this.email }}" type="text" required formControlName="email"></ion-input>
+      <ion-input (keyup.enter)="updateProfil()" value="{{ this.email }}" type="text" required formControlName="email"></ion-input>
     </ion-item>
     <ion-item lines="full">
-      <ion-label position="stacked">Phone number</ion-label>
+      <ion-label position="stacked">Numéro de téléphone</ion-label>
       <ion-input (keyup.enter)="updateProfil()"  value="{{ this.phone }}" type="text" formControlName="phone"></ion-input>
     </ion-item>
-    <ion-button type="submit" expand="block">Submit</ion-button>
+    <ion-button type="submit" expand="block">Valider</ion-button>
+    <ion-button color="danger" (click)="logout()">Déconnexion</ion-button>
   </form>
-
 </ion-content>

@@ -4,6 +4,7 @@ import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {ModalController} from '@ionic/angular';
 import {UploadFileComponent} from '../../modals/upload-file/upload-file.component';
 import {AngularFireStorage} from '@angular/fire/compat/storage';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-profil',
@@ -22,7 +23,9 @@ export class ProfilPage implements OnInit {
   constructor(public formBuilder: FormBuilder,
               private authentication: AuthenticationService,
               public modalController: ModalController,
-              public angularFireStorage : AngularFireStorage) { }
+              public angularFireStorage : AngularFireStorage,
+              public authenticationService: AuthenticationService,
+              public router: Router) { }
 
   ngOnInit() {
     this.authentication.getUser().subscribe(user => {
@@ -32,16 +35,15 @@ export class ProfilPage implements OnInit {
         this.firstname = userF.firstname;
         this.lastname = userF.lastname;
         this.phone = userF.phone;
-        this.profilPicture = this.angularFireStorage.ref(`${user.uid}`).getDownloadURL();
-        this.profilPicture
+        this.profilPicture = this.angularFireStorage.ref(`${user.uid}`).getDownloadURL().toPromise()
           .then(url => {
-            return Promise.resolve(true);
+            return url;
           })
-          .catch(error => {
-            if (error.code === 'storage/object-not-found') {
-              return Promise.resolve(false);
+          .catch(e => {
+            if (e.code === 'storage/object-not-found') {
+              return '../../../assets/default.png';
             } else {
-              return Promise.reject(error);
+              console.error(e);
             }
         });
       });
@@ -52,6 +54,18 @@ export class ProfilPage implements OnInit {
       lastname : new FormControl(),
       phone : new FormControl()
     });
+  }
+
+  logout() {
+    this.authenticationService.logout()
+        .catch((error) => {
+          console.error("Probleme de deconnexion. "+error);
+        })
+        .then( () =>
+          this.router.navigate(['/login']).catch((error) => {
+            console.error("Probleme de redirection vers le /login. "+error);
+          })
+        );
   }
 
   updateProfil() {

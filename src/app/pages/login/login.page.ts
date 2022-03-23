@@ -3,6 +3,7 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {ListService} from "../../services/list.service";
 import {Router} from '@angular/router';
+import {Platform} from '@ionic/angular';
 
 export interface User { name: string; }
 
@@ -13,13 +14,16 @@ export interface User { name: string; }
 })
 export class LoginPage implements OnInit {
   public ionicForm: FormGroup;
+  public isNotWeb: boolean;
 
   constructor(public authenticationService: AuthenticationService,
               public formBuilder: FormBuilder,
               public listService: ListService,
-              public router: Router) { }
+              public router: Router,
+              public platform: Platform) { }
 
   ngOnInit() {
+    this.isNotWeb = !this.platform.is('desktop') ? true : false;
     this.authenticationService.getUser().
       subscribe(uid => {
         if(uid != null) {

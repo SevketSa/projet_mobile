@@ -20,8 +20,8 @@
     <ion-item lines="full">
       <ion-label position="stacked">Temps estimé (Xj ou Xh)</ion-label>
       <ion-input type="text" required formControlName="estimate" pattern="^[0-9]*(j|h)$"></ion-input>
-      <div *ngIf="this.ionicForm.value.estimate != null && this.ionicForm.get('estimate').errors?.pattern">
-        Estimation non valide
+      <div class="estimation_invalide" *ngIf="this.ionicForm.value.estimate != null && this.ionicForm.get('estimate').errors?.pattern">
+        Format de l'estimation invalide
       </div>
     </ion-item>
     <ion-item lines="full">

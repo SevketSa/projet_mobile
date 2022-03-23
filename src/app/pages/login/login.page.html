@@ -20,10 +20,10 @@
       <ion-button expand="block" type="submit">Se connecter</ion-button>
       <p>Se connecter avec des réseaux sociaux :</p>
       <div id="button_login">
-        <ion-button fill="outline" (click)="loginWGoogle()">
+        <ion-button disabled='{{isNotWeb}}' fill="outline" (click)="loginWGoogle()">
           <ion-icon slot="icon-only" name="logo-google"></ion-icon>
         </ion-button>
-        <ion-button fill="outline" (click)="loginWFacebook()">
+        <ion-button disabled='{{isNotWeb}}' fill="outline" (click)="loginWFacebook()">
           <ion-icon slot="icon-only" name="logo-facebook"></ion-icon>
         </ion-button>
       </div>
