@@ -1,4 +1,41 @@
-#profilPicture {
-  max-height: 50vh;
-  max-width: 50vw;
+.card {
+  margin: 0 auto;
+
+  .header {
+    height: 230px;
+
+    .avatar {
+      width: 160px;
+      height: 130px;
+      position: relative;
+      margin: 0 auto;
+
+      img {
+        display: block;
+        border-radius: 50%;
+        position: absolute;
+        bottom: calc(-1*(130px + 4px));
+        border: 8px solid var(--ion-color-primary);
+        background-color: #fff;
+      }
+    }
+  }
+}
+
+.card-body {
+  background-color: #ffffff;
+  height: calc(100vh - 300px);
+  overflow: hidden;
+  padding-top: 50px;
+}
+
+ion-content {
+  --background: url(../../../assets/profil_bg.jpg) no-repeat top center/cover fixed, #fff;
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  form {
+    --background: #fff;
+  }
 }

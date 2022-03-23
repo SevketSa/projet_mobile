@@ -33,6 +33,17 @@ export class ProfilPage implements OnInit {
         this.lastname = userF.lastname;
         this.phone = userF.phone;
         this.profilPicture = this.angularFireStorage.ref(`${user.uid}`).getDownloadURL();
+        this.profilPicture
+          .then(url => {
+            return Promise.resolve(true);
+          })
+          .catch(error => {
+            if (error.code === 'storage/object-not-found') {
+              return Promise.resolve(false);
+            } else {
+              return Promise.reject(error);
+            }
+        });
       });
     });
     this.ionicForm = new FormGroup({

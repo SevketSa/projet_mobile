@@ -5,7 +5,21 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="ionicForm" (ngSubmit)="updateProfil()" novalidate>
+
+  <div class="card">
+    <div class="header">
+      <div class="avatar">
+        <img *ngIf="profilPicture | async as fileUrl" [src]="fileUrl" alt="Profil Picture">
+      </div>
+    </div>
+  </div>
+<!--  <ion-item *ngIf="profilPicture | async as fileUrl" lines="full">-->
+<!--    <img id="profilPicture" [src]="fileUrl" alt="Profil Picture"/>-->
+<!--  </ion-item>-->
+<!--  <ion-button (click)="openModal()" expand="block">Change pp</ion-button>-->
+<!--  -->
+
+  <form class="card-body" [formGroup]="ionicForm" (ngSubmit)="updateProfil()" novalidate>
     <ion-item lines="full">
       <ion-label position="stacked">Last Name</ion-label>
       <ion-input (keyup.enter)="updateProfil()"  value="{{ this.lastname }}" type="text" formControlName="lastname"></ion-input>
@@ -24,8 +38,5 @@
     </ion-item>
     <ion-button type="submit" expand="block">Submit</ion-button>
   </form>
-  <ion-item *ngIf="profilPicture | async as fileUrl" lines="full">
-    <img id="profilPicture" [src]="fileUrl" alt="Profil Picture"/>
-  </ion-item>
-  <ion-button (click)="openModal()" expand="block">Change pp</ion-button>
+
 </ion-content>
