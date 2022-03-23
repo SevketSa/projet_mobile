@@ -5,7 +5,7 @@
     </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="closeModal()">
-        close <ion-icon name="close"></ion-icon>
+        fermer <ion-icon name="close"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -18,13 +18,13 @@
       <ion-input type="text" required formControlName="name"></ion-input>
     </ion-item>
     <ion-item lines="full">
-      <ion-label position="stacked">Read only (separate mail with ";")</ion-label>
+      <ion-label position="stacked">Lecture seule (séparé les mails par des ";")</ion-label>
       <ion-input type="text" formControlName="mail_r"></ion-input>
     </ion-item>
     <ion-item lines="full">
-      <ion-label position="stacked">Read write (separate mail with ";")</ion-label>
+      <ion-label position="stacked">Lecture et Ecriture(séparé les mails par des ";")</ion-label>
       <ion-input type="text" formControlName="mail_rw"></ion-input>
     </ion-item>
-    <ion-button (keyup.enter)="addList()" type="submit" expand="block">Submit</ion-button>
+    <ion-button (keyup.enter)="addList()" type="submit" expand="block">Envoyer</ion-button>
   </form>
 </ion-content>

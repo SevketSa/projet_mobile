@@ -5,7 +5,7 @@
     </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="closeModal()">
-        close <ion-icon name="close"></ion-icon>
+        fermer <ion-icon name="close"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -13,11 +13,11 @@
 <ion-content>
   <form [formGroup]="ionicForm" novalidate>
     <ion-item>
-      <ion-label>Can Read</ion-label>
+      <ion-label>Droit de lire</ion-label>
       <ion-checkbox formControlName="canRead" checked="true"></ion-checkbox>
     </ion-item>
     <ion-item>
-      <ion-label>Can Write</ion-label>
+      <ion-label>Droit d'écrire</ion-label>
       <ion-checkbox formControlName="canWrite"></ion-checkbox>
     </ion-item>
     <ion-item lines="full">

@@ -1,11 +1,11 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Modal content
+      Création d'une tâche
     </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="closeModal()">
-        close <ion-icon name="close"></ion-icon>
+        fermer <ion-icon name="close"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -14,14 +14,14 @@
 <ion-content [fullscreen]="true">
   <form [formGroup]="ionicForm" (ngSubmit)="addTodo()" novalidate>
     <ion-item lines="full">
-      <ion-label position="stacked">Name</ion-label>
+      <ion-label position="stacked">Nom</ion-label>
       <ion-input type="text" required formControlName="name"></ion-input>
     </ion-item>
     <ion-item lines="full">
-      <ion-label position="stacked">Estimate (Xj or Xh)</ion-label>
+      <ion-label position="stacked">Temps estimé (Xj ou Xh)</ion-label>
       <ion-input type="text" required formControlName="estimate" pattern="^[0-9]*(j|h)$"></ion-input>
       <div *ngIf="this.ionicForm.value.estimate != null && this.ionicForm.get('estimate').errors?.pattern">
-        Estimate not valid
+        Estimation non valide
       </div>
     </ion-item>
     <ion-item lines="full">
@@ -29,7 +29,7 @@
       <ion-textarea type="text" formControlName="description"></ion-textarea>
     </ion-item>
 
-    <ion-button (keyup.enter)="addTodo()" type="submit" expand="block">Submit</ion-button>
+    <ion-button (keyup.enter)="addTodo()" type="submit" expand="block">Envoyer</ion-button>
   </form>
 </ion-content>
 
