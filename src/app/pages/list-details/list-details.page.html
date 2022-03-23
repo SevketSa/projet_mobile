@@ -1,11 +1,15 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>{{ this.listName }}</ion-title>
-    <ion-button fill="outline" (click)="shareQRCode()">
+    <ion-button slot="end" fill="outline" (click)="shareQRCode()">
       <ion-icon slot="icon-only" name="share"></ion-icon>
+    </ion-button>
+    <ion-button slot="start" [routerLink]="['/tabs/home']">
+      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
     </ion-button>
   </ion-toolbar>
 </ion-header>
+
 
 <ion-content>
   <div id="buttonChangeComponentList">
@@ -18,10 +22,10 @@
       Timeline
     </ion-button>
   </div>
-  <app-list-details-list *ngIf="this.listComponent" [delete]="myDelete" [todos]="this.todos" [listId]="this.listId"></app-list-details-list>
+  <app-list-details-list *ngIf="this.listComponent" [delete]="myDelete" [todos]="this.todos" [listId]="this.listId" [canWrite]="this.canWrite"></app-list-details-list>
   <app-list-details-graphic *ngIf="!this.listComponent" [delete]="myDelete" [todos]="this.todos" [listId]="this.listId"></app-list-details-graphic>
 </ion-content>
 
-<ion-footer>
+<ion-footer *ngIf="this.canWrite">
   <ion-button (click)="openModal()" expand="block">Add a new todo</ion-button>
 </ion-footer>

@@ -44,6 +44,12 @@ export class ListService {
     )
   }
 
+  public canWrite(listId: number, userMail: string) : Observable<boolean> {
+    return this.getOne(listId).pipe(map( list => {
+      return list.canWrite.includes(userMail);
+    }));
+  }
+
   public getOneTodo(listId: number, todoId: number): Observable<Todo> {
     return this.afs.doc<Todo>('lists/' + listId + '/todos/' + todoId).valueChanges();
   }

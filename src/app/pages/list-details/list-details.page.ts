@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ListService} from "../../services/list.service";
 import {Todo} from "../../models/todo";
 import {List} from "../../models/list";
@@ -9,6 +9,8 @@ import {Observable} from 'rxjs';
 import {CreateQrcodeComponent} from "../../modals/create-qrcode/create-qrcode.component";
 import * as uuid from 'uuid';
 import {AngularFirestore} from "@angular/fire/compat/firestore";
+import {AuthenticationService} from '../../services/authentication.service';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-details',
@@ -21,18 +23,25 @@ export class ListDetailsPage implements OnInit {
   public listId?: number;
   public listName?: string;
   public listComponent: boolean = true;
+  public canWrite: boolean = false;
 
   constructor(public route: ActivatedRoute,
               public listService : ListService,
               public modalController: ModalController,
               public afs: AngularFirestore,
-              ) { }
+              public router: Router,
+              public authenticationService: AuthenticationService) { }
 
   ngOnInit() {
     this.listService.getOne(+this.route.snapshot.paramMap.get("id")).subscribe(list => {
       this.listId = list.id;
       this.listName = list.name;
       this.todos = list.todos;
+      this.authenticationService.getUser().subscribe(user => {
+        this.listService.canWrite(this.listId, user.email).subscribe(canWrite => {
+          this.canWrite = canWrite
+        });
+      })
     });
   }
 

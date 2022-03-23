@@ -24,6 +24,7 @@ export class TodoDetailsPage implements OnInit {
   public start: string = "";
   public estimate : string;
   public end: string = "";
+  public canWrite: boolean = false;
 
   constructor(public route: ActivatedRoute,
               public listService : ListService,
@@ -54,6 +55,16 @@ export class TodoDetailsPage implements OnInit {
       this.ionicForm.controls['start'].setValue(todo.start == "" ? "" : formatDate(new Date(todo.start), 'EEEE dd MMMM YYYY - HH:mm:ss', 'fr'));
       this.ionicForm.controls['end'].setValue(todo.end == "" ? "" : formatDate(new Date(todo.end), 'EEEE dd MMMM YYYY - HH:mm:ss', 'fr'));
     });
+    this.authenticationService.getUser().subscribe(user => {
+      this.listService.canWrite(this.listId, user.email).subscribe(canWrite => {
+        this.canWrite = canWrite;
+        if(!canWrite) {
+          this.ionicForm.controls['name'].disable();
+          this.ionicForm.controls['description'].disable();
+          this.ionicForm.controls['isDone'].disable();
+        }
+      });
+    })
   }
 
   submitForm() {

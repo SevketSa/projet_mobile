@@ -10,6 +10,7 @@ export class ListDetailsListComponent implements OnInit {
   @Input() delete: Function;
   @Input() todos: Todo[];
   @Input() listId: number;
+  @Input() canWrite: boolean;
 
   constructor() {}
 
