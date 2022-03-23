@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Login</ion-title>
+    <ion-title>Se connecter</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -10,14 +10,14 @@
   <ng-template #showLogin>
     <form id="form_login" [formGroup]="ionicForm" (ngSubmit)="login()" novalidate>
       <ion-item lines="full">
-        <ion-label position="stacked">Email</ion-label>
+        <ion-label position="stacked">Mail</ion-label>
         <ion-input type="text" required formControlName="email"></ion-input>
       </ion-item>
       <ion-item lines="full">
-        <ion-label position="stacked">Password</ion-label>
+        <ion-label position="stacked">Mot de passe</ion-label>
         <ion-input (keyup.enter)="this.login()" type="password" required formControlName="password"></ion-input>
       </ion-item>
-      <ion-button expand="block" type="submit">Login</ion-button>
+      <ion-button expand="block" type="submit">Se connecter</ion-button>
       <p>Se connecter avec des réseaux sociaux :</p>
       <div id="button_login">
         <ion-button fill="outline" (click)="loginWGoogle()">
@@ -29,7 +29,7 @@
       </div>
       <p>Vous avez perdu votre mot de passe ? <a routerLink="/password-recovery">Réinitialiser mon mot de passe</a></p>
       <ion-button color="secondary" expand="block" routerLink="/register">
-        Register
+        S'inscrire
       </ion-button>
     </form>
   </ng-template>

@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Todo Detail
+      Détail de la tâche
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -17,26 +17,26 @@
       <ion-input value={{this.description}} formControlName="description"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="stacked">Create at</ion-label>
+      <ion-label position="stacked">Date de création</ion-label>
       <ion-input value={{this.create}} formControlName="create"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="stacked">Started at</ion-label>
+      <ion-label position="stacked">Date de début :</ion-label>
       <ion-input value={{this.start}} formControlName="start"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="stacked">Estimated duration</ion-label>
+      <ion-label position="stacked">Estimation de temps :</ion-label>
       <ion-input value={{this.estimate}} formControlName="estimate"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="stacked">End at</ion-label>
+      <ion-label position="stacked">Date de fin :</ion-label>
       <ion-input value={{this.end}} formControlName="end"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Fait</ion-label>
       <ion-checkbox checked="{{this.isDone}}" formControlName="isDone"></ion-checkbox>
     </ion-item>
-    <ion-button *ngIf="!this.start" (click)="startTodo()">Start todo</ion-button>
+    <ion-button *ngIf="!this.start" (click)="startTodo()">Commencer la tâche</ion-button>
     <ion-button type="submit" expand="block">Save</ion-button>
   </form>
 </ion-content>
