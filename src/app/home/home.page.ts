@@ -11,8 +11,8 @@ import {AuthenticationService} from '../services/authentication.service';
     styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-    lists: Observable<[List[], List[]]> = EMPTY;
-    type: string[] = ["Write", "Read Only"];
+    lists: Observable<[[List[]], List[][]]> = EMPTY;
+    type: string[] = ["Mes listes","Partagées avec moi"];
     name: string = "List";
 
     constructor(public route: ActivatedRoute,

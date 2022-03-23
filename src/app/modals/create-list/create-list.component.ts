@@ -48,6 +48,9 @@ export class CreateListComponent implements OnInit {
                 listMailRW = this.removeLastChar(this.ionicForm.value.mail_rw.replace(/\s/g, "")).split(";");//Suppression des espace et séparation des emails
                 listMailRW = listMailRW.filter(email => email!= user.email)//Suppression de la redondance du mail de l'owner
             }
+            if(this.ionicForm.value.mail_r != null && this.ionicForm.value.mail_rw != null) {
+              listMailR = listMailR.filter(email => listMailRW.forEach(emailRW => email != emailRW))
+            }
             this.listService.create(new List(this.ionicForm.value.name, user.uid, null, null, listMailR, listMailRW ));
           }
       )

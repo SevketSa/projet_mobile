@@ -53,10 +53,11 @@ export class ScanPage implements OnInit {
           this.listService.getToken(result.content).subscribe(token => {
             this.listService.getOne(token.listId).pipe(first()).subscribe(list => {
               this.canRead = list.canRead;
-              this.canRead.push(user.email);
               this.canWrite = list.canWrite;
               if(token.canWrite){
                 this.canWrite.push(user.email)
+              } else {
+                this.canRead.push(user.email);
               }
               this.listService.updateList(token.listId, this.canRead, this.canWrite);
               this.listService.deleteQRCode(result.content);

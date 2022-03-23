@@ -5,7 +5,7 @@ import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {combineLatest, Observable} from "rxjs";
 import {deleteDoc, doc, setDoc} from "@angular/fire/firestore";
 import {AuthenticationService} from './authentication.service';
-import {map, switchMap} from "rxjs/operators";
+import {filter, map, switchMap, tap} from "rxjs/operators";
 import {formatDate} from "@angular/common";
 import {Token} from "../models/token";
 
@@ -18,17 +18,16 @@ export class ListService {
               private authentication: AuthenticationService) {
   }
 
-  public getAll(): Observable<[List[], List[]]> {
+  public getAll()  {
     return this.authentication.getUser().pipe(
       switchMap( user => {
-        const obs1 = this.afs.collection<List>('lists/', ref => ref.where('owner','==',user.uid)).valueChanges();
-        const obs2 = this.afs.collection<List>('lists/', ref => ref.where('canWrite', 'array-contains', user.uid)).valueChanges();
-        const obs2bis = this.afs.collection<List>('lists/', ref => ref.where('canWrite', 'array-contains', user.email)).valueChanges();
-        const obs3 = this.afs.collection<List>('lists/', ref => ref.where('canRead', 'array-contains', user.uid)).valueChanges();
-        const obs3bis = this.afs.collection<List>('lists/', ref => ref.where('canRead', 'array-contains', user.email)).valueChanges();
-        const write = combineLatest([obs1, obs2, obs2bis]).pipe(map(([a, b, bBis]) => a.concat(b.concat(bBis))));
-        const read = combineLatest([obs3, obs3bis]).pipe(map(([b, bBis]) => b.concat(bBis)));
-        return combineLatest([write,read]);
+        const owner = this.afs.collection<List>('lists/', ref => ref.where('owner','==',user.uid)).valueChanges();
+        // const obs2 = this.afs.collection<List>('lists/', ref => ref.where('canWrite', 'array-contains', user.uid)).valueChanges();
+        const write = this.afs.collection<List>('lists/', ref => ref.where('canWrite', 'array-contains', user.email)).valueChanges();
+        // const obs3 = this.afs.collection<List>('lists/', ref => ref.where('canRead', 'array-contains', user.uid)).valueChanges();
+        const read = this.afs.collection<List>('lists/', ref => ref.where('canRead', 'array-contains', user.email)).valueChanges();
+        const rw = combineLatest([write, read]);
+        return combineLatest([combineLatest([owner]),rw]);
       })
     )
   }

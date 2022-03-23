@@ -1,27 +1,29 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Todo List
+      Home
     </ion-title>
     <ion-button (click)="logout()">Logout</ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-item-group *ngFor="let lists of this.lists | async; let index = index;">
+  <ion-item-group *ngFor="let types of this.lists | async; let indexType = index;">
     <ion-item-divider>
-      <ion-label>{{ this.type[index] }}</ion-label>
+      <ion-label>{{ this.type[indexType] }}</ion-label>
     </ion-item-divider>
-    <ion-item-sliding *ngFor="let list of lists;">
-      <ion-item button="true" lines="full" [routerLink]="['/list-details', list.id]">
-        <ion-label>{{ list.name }}</ion-label>
-        <ion-icon *ngIf="index == 0" class="list-write" name="brush"></ion-icon>
-        <ion-icon class="list-read" name="eye"></ion-icon>
-        <ion-icon name="chevron-forward-outline"></ion-icon>
-      </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="delete(list.id)"><ion-icon name="trash"></ion-icon></ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
+    <div *ngFor="let lists of types; let index = index">
+      <ion-item-sliding *ngFor="let list of lists;">
+        <ion-item button="true" lines="full" [routerLink]="['/list-details', list.id]">
+          <ion-label>{{ list.name }}</ion-label>
+          <ion-icon *ngIf="indexType != 0 && index == 0" class="list-write" name="brush"></ion-icon>
+          <ion-icon *ngIf="indexType != 0" class="list-read" name="eye"></ion-icon>
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </ion-item>
+        <ion-item-options *ngIf="indexType == 0" side="end">
+          <ion-item-option color="danger" (click)="delete(list.id)"><ion-icon name="trash"></ion-icon></ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </div>
   </ion-item-group>
 </ion-content>

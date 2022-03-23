@@ -8,7 +8,7 @@
   <div *ngIf="this.authenticationService.getUser() | async; else showLogin">
   </div>
   <ng-template #showLogin>
-    <form [formGroup]="ionicForm" (ngSubmit)="login()" novalidate>
+    <form id="form_login" [formGroup]="ionicForm" (ngSubmit)="login()" novalidate>
       <ion-item lines="full">
         <ion-label position="stacked">Email</ion-label>
         <ion-input type="text" required formControlName="email"></ion-input>
@@ -17,10 +17,8 @@
         <ion-label position="stacked">Password</ion-label>
         <ion-input (keyup.enter)="this.login()" type="password" required formControlName="password"></ion-input>
       </ion-item>
-      <a routerLink="/password-recovery">
-        Did you forget your password ?
-      </a>
       <ion-button expand="block" type="submit">Login</ion-button>
+      <p>Se connecter avec des réseaux sociaux :</p>
       <div id="button_login">
         <ion-button fill="outline" (click)="loginWGoogle()">
           <ion-icon slot="icon-only" name="logo-google"></ion-icon>
@@ -29,7 +27,8 @@
           <ion-icon slot="icon-only" name="logo-facebook"></ion-icon>
         </ion-button>
       </div>
-      <ion-button expand="block" routerLink="/register">
+      <p>Vous avez perdu votre mot de passe ? <a routerLink="/password-recovery">Réinitialiser mon mot de passe</a></p>
+      <ion-button color="secondary" expand="block" routerLink="/register">
         Register
       </ion-button>
     </form>
