@@ -3,6 +3,7 @@ export class User {
     firstname : string;
     lastname : string;
     phone : boolean;
+    notifications: string[];
 
     constructor() {}
 }

@@ -5,9 +5,10 @@ import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {combineLatest, Observable} from "rxjs";
 import {deleteDoc, doc, setDoc} from "@angular/fire/firestore";
 import {AuthenticationService} from './authentication.service';
-import {filter, map, switchMap, tap} from "rxjs/operators";
+import {filter, first, map, switchMap, tap} from "rxjs/operators";
 import {formatDate} from "@angular/common";
 import {Token} from "../models/token";
+import {User} from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,10 @@ export class ListService {
     )
   }
 
+  public getOneUser(userUid: string): Observable<User> {
+    return this.afs.doc<User>('users/' + userUid).valueChanges();
+  }
+
   public canWrite(listId: number, userMail: string) : Observable<boolean> {
     return this.getOne(listId).pipe(map( list => {
       return list.canWrite.includes(userMail);
@@ -67,7 +72,18 @@ export class ListService {
       canWrite: list.canWrite
     }).catch(error => console.log("Erreur lors de la création d'un document List ! "+error))
         .then(() => {
-          this.authentication.presentAlert("Création réussi !","La liste <b>"+list.name+"</b> a été ajoutée.")
+          this.authentication.presentAlert("Création réussi !","La liste <b>"+list.name+"</b> a été ajoutée.");
+          this.afs.collection<User>('users').valueChanges().pipe(first()).subscribe( users => {
+            users.forEach(user => {
+              if(list.canWrite.includes(user.email)){
+                this.addNotification("Vous avez était ajouté à la liste <b>"+list.name+"</b> avec les droits de lecture et d'écriture.")
+              }
+              if(list.canRead.includes(user.email)){
+                this.addNotification("Vous avez était ajouté à la liste <b>"+list.name+"</b> avec les droits de lecture.")
+              }
+            })
+          })
+
         });
   }
 
@@ -108,11 +124,15 @@ export class ListService {
     }).catch( e => console.log(e))
   }
 
-  public updateList(listId: number, canRead: string[], canWrite: string[]) {
+  public updateList(listId: number, canRead: string[], canWrite: string[], listName: string) {
     this.afs.firestore.doc('lists/' + listId.toString()).update({
       canRead: canRead,
       canWrite: canWrite
     }).catch( e => console.log(e))
+      // .then( () => {
+      //
+      //
+      // })
   }
 
   public updateQRToken(token: string, writeRight: boolean) {
@@ -121,7 +141,7 @@ export class ListService {
     }).catch( e => console.log(e))
   }
 
-  public  delete(listId: number) {
+  public delete(listId: number) {
     deleteDoc(doc(this.afs.firestore, "lists", listId.toString())).catch(error => console.log("Erreur lors de la suppression d'un document List ! "+error));
   }
 
@@ -132,5 +152,35 @@ export class ListService {
 
   public deleteQRCode(token: string) {
     deleteDoc(doc(this.afs.firestore, "QRToken", token)).catch(error => console.log("Erreur lors de la suppression d'un document QRToken ! "+error));
+  }
+
+  private addNotification(message: string) {//Changer pour que l'utilisateur en question soit l'utilisateur entrée selon le mail et non selon celui qui est connecté
+    this.authentication.getUser().subscribe( user => {
+      this.getOneUser(user.uid).pipe(first()).subscribe( userModel => {
+        const oldNotif = userModel.notifications;
+        const newNotif = oldNotif.concat(message);
+        this.afs.firestore.doc('users/' + user.uid).update({
+          notifications: newNotif
+        }).catch(e => console.log(e));
+      })
+    })
+  }
+
+  public getNotifications(userId: string) : Observable<string[]> {
+    return this.getOneUser(userId).pipe(map( userModel => {
+      return userModel.notifications;
+    }));
+  }
+
+  public deleteNotifications(notif: string) {
+    this.authentication.getUser().subscribe( user => {
+      this.getOneUser(user.uid).pipe(first()).subscribe( userModel => {
+        const oldNotif = userModel.notifications;
+        const newNotif = oldNotif.filter(obj => obj != notif);
+        this.afs.firestore.doc('users/' + user.uid).update({
+          notifications: newNotif
+        }).catch(e => console.log(e));
+      })
+    })
   }
 }

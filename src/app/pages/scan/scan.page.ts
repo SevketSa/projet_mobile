@@ -59,7 +59,7 @@ export class ScanPage implements OnInit {
               } else {
                 this.canRead.push(user.email);
               }
-              this.listService.updateList(token.listId, this.canRead, this.canWrite);
+              this.listService.updateList(token.listId, this.canRead, this.canWrite, list.name);
               this.listService.deleteQRCode(result.content);
               this.router.navigate(['list-details/'+token.listId])
             })

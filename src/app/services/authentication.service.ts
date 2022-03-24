@@ -91,7 +91,8 @@ export class AuthenticationService {
             email: userCred.user.email,
             firstname: "",
             lastname: "",
-            phone: ""
+            phone: "",
+            notifications: []
         })
         .catch(error => console.log("Erreur lors de la création d'un user ! "+error))
         .then(() => {

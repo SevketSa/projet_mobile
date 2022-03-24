@@ -5,9 +5,10 @@
       <ion-label>Home</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="notifications">
+    <ion-tab-button id="notification" tab="notifications">
       <ion-icon name="notifications"></ion-icon>
       <ion-label>Notifications</ion-label>
+      <div *ngIf="this.notifications != 0" id="notification_badge">{{this.notifications}}</div>
     </ion-tab-button>
 
     <ion-button id="buttonAddInTabs" layout="icon-start" (click)="this.openModal()">
