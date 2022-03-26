@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Renderer2} from '@angular/core';
 import {ListService} from '../../services/list.service';
 import {AuthenticationService} from '../../services/authentication.service';
-import {Observable} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
+import {Notifications} from '../../models/notifications';
 
 @Component({
   selector: 'app-notifications',
@@ -9,20 +10,24 @@ import {Observable} from 'rxjs';
   styleUrls: ['./notifications.page.scss'],
 })
 export class NotificationsPage implements OnInit {
-  private notifications: Observable<string[]>;
+  private notifications: Observable<Notifications[]> = EMPTY;
+  isRead: boolean;
 
   constructor(public listService: ListService,
-              public authenticationService: AuthenticationService) { }
+              public authenticationService: AuthenticationService,
+              private renderer: Renderer2) { }
 
   ngOnInit() {
     this.authenticationService.getUser().subscribe(user => {
-      this.notifications = this.listService.getNotifications(user.uid);
+      this.notifications = this.listService.getNotifications(user.email);
     })
   }
 
-  delete(notif : string) {
-    this.authenticationService.getUser().subscribe(user => {
-      this.listService.deleteNotifications(notif);
-    })
+  delete(notifId: number) {
+    this.listService.deleteNotifications(notifId);
+  }
+
+  readNotif(notifId: number) {
+    this.listService.notificationRead(notifId);
   }
 }

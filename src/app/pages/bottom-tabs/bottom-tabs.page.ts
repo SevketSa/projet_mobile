@@ -21,7 +21,7 @@ export class BottomTabsPage implements OnInit {
   ngOnInit() {
     this.isWeb = this.platform.is('desktop') ? true : false;
     this.authenticationService.getUser().subscribe(user => {
-      this.listService.getNotifications(user.uid).subscribe(notifs => this.notifications = notifs.length);
+      this.listService.getNotifications(user.email).subscribe(notifs => this.notifications = notifs.length);
     })
   }
 
