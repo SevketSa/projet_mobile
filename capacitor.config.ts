@@ -4,12 +4,7 @@ const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
   appName: 'todolist',
   webDir: 'www',
-  bundledWebRuntime: false,
-  plugins: {
-    PushNotifications: {
-      presentationOptions: ["badge", "sound", "alert"],
-    },
-  },
+  bundledWebRuntime: false
 };
 
 export default config;

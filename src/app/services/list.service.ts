@@ -5,12 +5,11 @@ import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {combineLatest, Observable} from "rxjs";
 import {deleteDoc, doc, setDoc} from "@angular/fire/firestore";
 import {AuthenticationService} from './authentication.service';
-import {filter, first, map, switchAll, switchMap} from "rxjs/operators";
+import {map, switchMap} from "rxjs/operators";
 import {formatDate} from "@angular/common";
 import {Token} from "../models/token";
 import {User} from '../models/user';
 import {Notifications} from '../models/notifications';
-import {not} from 'rxjs/internal-compatibility';
 
 @Injectable({
   providedIn: 'root'
@@ -122,13 +121,13 @@ export class ListService {
       canRead: canRead,
       canWrite: canWrite
     }).catch( e => console.log(e))
-      // .then( () => {
-      //   if (canWrite.includes(newUserMail)) {
-      //     this.addNotification(newUserMail, "Vous avez était ajouté à la liste "+listName+" avec les droits de lecture et d'écriture.");
-      //   } else {
-      //     this.addNotification(newUserMail, "Vous avez était ajouté à la liste "+listName+" avec les droits de lecture.");
-      //   }
-      // })
+      .then( () => {
+        if (canWrite.includes(newUserMail)) {
+          this.addNotification(new Notifications(newUserMail, "Vous avez était ajouté à la liste "+listName+" avec les droits de lecture et d'écriture."));
+        } else {
+          this.addNotification(new Notifications(newUserMail, "Vous avez était ajouté à la liste "+listName+" avec les droits de lecture."));
+        }
+      })
   }
 
   public updateQRToken(token: string, writeRight: boolean) {
