@@ -1,5 +1,11 @@
-.center {
-  margin-left: auto;
-  margin-right: auto;
-  width: 250px;
+#qrcode {
+  margin-top: calc((100% - 235px)/2);
 }
+
+#qrcode-container{
+  width: 100%;
+  height: calc(100vh - 205px);
+  display: flex;
+  justify-content: center;
+}
+

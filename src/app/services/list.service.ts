@@ -51,9 +51,13 @@ export class ListService {
   }
 
   public canWrite(listId: number, userMail: string) : Observable<boolean> {
-    return this.getOne(listId).pipe(map( list => {
-      return list.canWrite.includes(userMail);
-    }));
+    return this.authentication.getUser().pipe(
+        switchMap( user => {
+          return this.getOne(listId).pipe(map( list => {
+            return list.canWrite.includes(userMail) || user.email == userMail;
+          }));
+        })
+    )
   }
 
   public getOneTodo(listId: number, todoId: number): Observable<Todo> {

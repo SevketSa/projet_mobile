@@ -15,7 +15,7 @@
   <div id="buttonChangeComponentList">
     <ion-button (click)="changeComponent()" [disabled]="this.listComponent" expand="full">
       <ion-icon name="list"></ion-icon>
-      List
+      Tâches
     </ion-button>
     <ion-button (click)="changeComponent()" [disabled]="!this.listComponent" expand="full">
       <ion-icon name="stats-chart"></ion-icon>
@@ -27,5 +27,5 @@
 </ion-content>
 
 <ion-footer *ngIf="this.canWrite">
-  <ion-button (click)="openModal()" expand="block">Add a new todo</ion-button>
+  <ion-button (click)="openModal()" expand="block">Ajouter une tâche</ion-button>
 </ion-footer>

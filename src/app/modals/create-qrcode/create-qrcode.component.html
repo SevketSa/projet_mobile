@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Montrez ce QRCode pour partager la Todo List !
+      Partager le QRCode !
     </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="closeModal()">
@@ -12,17 +12,17 @@
 </ion-header>
 <ion-content>
   <form [formGroup]="ionicForm" novalidate>
-    <ion-item>
+    <ion-item lines="full">
       <ion-label>Droit de lire</ion-label>
       <ion-checkbox formControlName="canRead" checked="true"></ion-checkbox>
     </ion-item>
-    <ion-item>
+    <ion-item lines="full">
       <ion-label>Droit d'écrire</ion-label>
       <ion-checkbox formControlName="canWrite"></ion-checkbox>
     </ion-item>
-    <ion-item lines="full">
-      <qrcode class="center" [qrdata]="this.TokenToShare"></qrcode>
-    </ion-item>
+    <div id="qrcode-container">
+      <qrcode id="qrcode" [scale]="8" [margin]="0" [qrdata]="this.TokenToShare"></qrcode>
+    </div>
   </form>
 </ion-content>
 

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { QRCodeModule } from 'angularx-qrcode';
 import {ModalController, NavParams} from "@ionic/angular";
 import {FormControl, FormGroup} from "@angular/forms";
 import {ListService} from "../../services/list.service";
