@@ -13,7 +13,7 @@ import {ListDetailsListComponent} from "../../components/list-details-list/list-
 import {ListDetailsGraphicComponent} from "../../components/list-details-graphic/list-details-graphic.component";
 import {QRCodeModule} from "angularx-qrcode";
 import {CreateQrcodeComponent} from "../../modals/create-qrcode/create-qrcode.component";
-import {MbscModule} from '@mobiscroll/angular';
+import {NgCalendarModule} from "ionic2-calendar";
 
 @NgModule({
   imports: [
@@ -23,8 +23,8 @@ import {MbscModule} from '@mobiscroll/angular';
     FormsModule,
     ReactiveFormsModule,
     QRCodeModule,
-    MbscModule
+    NgCalendarModule
   ],
-  declarations: [ListDetailsPage, CreateTodoComponent, ListDetailsListComponent, ListDetailsGraphicComponent, CreateQrcodeComponent]
+  declarations: [ListDetailsPage, CreateTodoComponent, ListDetailsListComponent, ListDetailsGraphicComponent, CreateQrcodeComponent],
 })
 export class ListDetailsPageModule {}

@@ -31,7 +31,7 @@ export class ScanPage implements OnInit {
       if (status.granted) {
         resolve(true);
       } else if (status.denied) {
-        BarcodeScanner.openAppSettings();
+        await BarcodeScanner.openAppSettings();
         resolve(false);
       }
     });
@@ -42,7 +42,6 @@ export class ScanPage implements OnInit {
 
     if (allowed) {
       this.scanActive = true;
-      BarcodeScanner.hideBackground();
       document.body.style.background = 'transparent';
       const result = await BarcodeScanner.startScan();
 
@@ -67,7 +66,7 @@ export class ScanPage implements OnInit {
         });
       }
     } else {
-      alert('NOT ALLOWED!');
+      alert("Merci d'autoriser l'accès à la camera dans vos paramètres afin de bénéficier de cette fonctionnalité.");
     }
   }
 

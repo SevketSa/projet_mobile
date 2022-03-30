@@ -1,12 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Todo} from "../../models/todo";
-import {localeFr, MbscCalendarEvent, MbscEventcalendarView, setOptions} from '@mobiscroll/angular';
+import {CalendarMode, Step} from "ionic2-calendar/calendar";
+import {NavController} from "@ionic/angular";
 
-setOptions({
-  locale: localeFr,
-  theme: 'ios',
-  themeVariant: 'light'
-});
+
 
 @Component({
   selector: 'app-list-details-graphic',
@@ -17,53 +14,123 @@ export class ListDetailsGraphicComponent implements OnInit {
   @Input() delete: Function;
   @Input() todos: Todo[];
   @Input() listId: number;
-  private id: number = 0;
-  myEvents: MbscCalendarEvent[] = [];
+  eventSource;
+  viewTitle;
 
-  constructor() { }
-
-  ngOnInit() {
-    for (let todo of this.todos) {
-      if(todo.start != "") {
-        this.myEvents.push({
-          start: todo.start,
-          end: todo.end,
-          title: todo.isDone ? 'Done' : 'Work in progress',
-          resource: this.id
-        });
-        this.myResources.push({
-          id: this.id++,
-          name: todo.name + ".\nState : " + (todo.isDone ? 'Done.' : 'Work in progress.'),
-          color: this.whichColor(todo)
-        });
+  isToday:boolean;
+  calendar = {
+    mode: 'month' as CalendarMode,
+    step: 30 as Step,
+    currentDate: new Date(),
+    dateFormatter: {
+      formatMonthViewDay: function(date:Date) {
+        return date.getDate().toString();
+      },
+      formatMonthViewDayHeader: function(date:Date) {
+        return 'MonMH';
+      },
+      formatMonthViewTitle: function(date:Date) {
+        return 'testMT';
+      },
+      formatWeekViewDayHeader: function(date:Date) {
+        return 'MonWH';
+      },
+      formatWeekViewTitle: function(date:Date) {
+        return 'testWT';
+      },
+      formatWeekViewHourColumn: function(date:Date) {
+        return 'testWH';
+      },
+      formatDayViewHourColumn: function(date:Date) {
+        return 'testDH';
+      },
+      formatDayViewTitle: function(date:Date) {
+        return 'testDT';
       }
-    }
-  }
-
-  whichColor(todo : Todo) {
-    if(!todo.isDone && todo.start != "") {
-      let delta = (new Date(todo.end).getTime() - new Date(todo.start).getTime())/3;//Interval
-      let res = (new Date().getTime() - new Date(todo.start).getTime());
-      if(res <= delta*2) {
-        return "#ffc409";
-      } else if (res > delta *2) {
-        return "#eb445a";
-      }
-    } else if (todo.isDone) {
-      return "#2dd36f";
-    }
-  }
-
-  view: MbscEventcalendarView = {
-    timeline: {
-      rowHeight: 'equal',
-      type: 'week',
-      timeCellStep: 1440,
-      timeLabelStep: 1440,
-      weekNumbers: true,
-      size: 2
     }
   };
 
-  myResources = [];
+  constructor(private navController: NavController) {}
+
+  ngOnInit() {
+  }
+
+  loadEvents() {
+    this.eventSource = this.createRandomEvents();
+  }
+
+  onViewTitleChanged(title) {
+    this.viewTitle = title;
+  }
+
+  onEventSelected(event) {
+    console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
+  }
+
+  changeMode(mode) {
+    this.calendar.mode = mode;
+  }
+
+  today() {
+    this.calendar.currentDate = new Date();
+  }
+
+  onTimeSelected(ev) {
+    console.log('Selected time: ' + ev.selectedTime + ', hasEvents: ' +
+      (ev.events !== undefined && ev.events.length !== 0) + ', disabled: ' + ev.disabled);
+  }
+
+  onCurrentDateChanged(event:Date) {
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+    event.setHours(0, 0, 0, 0);
+    this.isToday = today.getTime() === event.getTime();
+  }
+
+  createRandomEvents() {
+    var events = [];
+    for (var i = 0; i < 50; i += 1) {
+      var date = new Date();
+      var eventType = Math.floor(Math.random() * 2);
+      var startDay = Math.floor(Math.random() * 90) - 45;
+      var endDay = Math.floor(Math.random() * 2) + startDay;
+      var startTime;
+      var endTime;
+      if (eventType === 0) {
+        startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
+        if (endDay === startDay) {
+          endDay += 1;
+        }
+        endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + endDay));
+        events.push({
+          title: 'All Day - ' + i,
+          startTime: startTime,
+          endTime: endTime,
+          allDay: true
+        });
+      } else {
+        var startMinute = Math.floor(Math.random() * 24 * 60);
+        var endMinute = Math.floor(Math.random() * 180) + startMinute;
+        startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + startDay, 0, date.getMinutes() + startMinute);
+        endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + endDay, 0, date.getMinutes() + endMinute);
+        events.push({
+          title: 'Event - ' + i,
+          startTime: startTime,
+          endTime: endTime,
+          allDay: false
+        });
+      }
+    }
+    return events;
+  }
+
+  onRangeChanged(ev) {
+    console.log('range changed: startTime: ' + ev.startTime + ', endTime: ' + ev.endTime);
+  }
+
+  markDisabled = (date:Date) => {
+    var current = new Date();
+    current.setHours(0, 0, 0);
+    return date < current;
+  };
 }

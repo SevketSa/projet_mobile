@@ -10,8 +10,8 @@ import {AuthenticationService} from '../../services/authentication.service';
   styleUrls: ['./bottom-tabs.page.scss'],
 })
 export class BottomTabsPage implements OnInit {
-  isWeb: boolean = false;
-  public notifications: number;
+  public isWeb = false;
+  public notifications = 0;
 
   constructor(public modalController: ModalController,
               public platform: Platform,
@@ -21,8 +21,14 @@ export class BottomTabsPage implements OnInit {
   ngOnInit() {
     this.isWeb = this.platform.is('desktop') ? true : false;
     this.authenticationService.getUser().subscribe(user => {
-      this.listService.getNotifications(user.email).subscribe(notifs => this.notifications = notifs.length);
-    })
+      this.listService.getNotifications(user.email).subscribe(notifs => {
+        notifs.forEach(notif => {
+          if(!notif.isRead) {
+            this.notifications++;
+          }
+        });
+      });
+    });
   }
 
   async openModal() {

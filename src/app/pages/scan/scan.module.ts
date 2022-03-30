@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ScanPageRoutingModule } from './scan-routing.module';
 
 import { ScanPage } from './scan.page';
+import {Flashlight} from "@awesome-cordova-plugins/flashlight/ngx";
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { ScanPage } from './scan.page';
     IonicModule,
     ScanPageRoutingModule
   ],
-  declarations: [ScanPage]
+  declarations: [ScanPage],
+  providers: [Flashlight]
 })
 export class ScanPageModule {}

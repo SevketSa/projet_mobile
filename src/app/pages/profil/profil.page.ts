@@ -29,7 +29,7 @@ export class ProfilPage implements OnInit {
 
   ngOnInit() {
     this.authentication.getUser().subscribe(user => {
-      this.userUid = user.uid
+      this.userUid = user.uid;
       this.authentication.getUserFirestore().subscribe(userF => {
         this.email = userF.email;
         this.firstname = userF.firstname;
