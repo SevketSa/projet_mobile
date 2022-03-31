@@ -1,16 +1,13 @@
-<ion-buttons end>
-  <button ion-button [disabled]="isToday" (click)="today()">Today</button>
-  <button ion-button (click)="changeMode('month')">M</button>
-  <button ion-button (click)="changeMode('week')">W</button>
-  <button ion-button (click)="changeMode('day')">D</button>
-  <button ion-button (click)="loadEvents()">Load Events</button>
-</ion-buttons>
+<div id="buttonChangeComponentTypeCalendar">
+  <ion-button disabled="{{this.isToday}}" (click)="today()">Aujourd'hui</ion-button>
+  <ion-button color="secondary" disabled="{{this.isMonth}}" (click)="changeMode('month')">Mois</ion-button>
+  <ion-button color="secondary" disabled="{{this.isWeek}}" (click)="changeMode('week')">Semaine</ion-button>
+  <ion-button color="secondary" disabled="{{this.isDay}}" (click)="changeMode('day')">Jour</ion-button>
+</div>
 <calendar [eventSource]="eventSource"
           [calendarMode]="calendar.mode"
           [currentDate]="calendar.currentDate"
           (onCurrentDateChanged)="onCurrentDateChanged($event)"
           (onEventSelected)="onEventSelected($event)"
-          (onTitleChanged)="onViewTitleChanged($event)"
-          (onTimeSelected)="onTimeSelected($event)"
           [step]="calendar.step">
 </calendar>

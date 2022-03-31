@@ -1,0 +1,9 @@
+#buttonChangeComponentTypeCalendar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+#buttonChangeComponentTypeCalendar > ion-button {
+  width: 100%;
+}
