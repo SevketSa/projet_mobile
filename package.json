@@ -34,6 +34,7 @@
     "angularx-qrcode": "^13.0.3",
     "firebase": "^9.6.6",
     "ionic2-calendar": "^0.6.9",
+    "jquery": "^3.6.0",
     "rxfire": "^6.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",

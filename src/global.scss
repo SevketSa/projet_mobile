@@ -1,5 +1,4 @@
-.monthview-primary-with-event,
-.calendar-event-inner {
+.monthview-primary-with-event {
   background-color: var(--ion-color-primary) !important;
 }
 
@@ -10,6 +9,34 @@
 .monthview-selected {
   background-color: var(--ion-color-secondary) !important;
 }
+
+.todo-warning {
+  background-color: var(--ion-color-warning) !important;
+}
+
+.todo-attention {
+  background-color: var(--ion-color-danger) !important;
+}
+
+.todo-done {
+  background-color: var(--ion-color-success) !important;
+}
+
+.todo-details-warning {
+  color: var(--ion-color-warning) !important;
+}
+
+.todo-details-attention {
+  color: var(--ion-color-danger) !important;
+}
+
+.todo-details-done {
+  color: var(--ion-color-success) !important;
+}
+
+//:contains[innerHtml^="En cours"]{
+//  background-color: var(--ion-color-warning) !important;
+//}
 
 /*
  * App Global CSS

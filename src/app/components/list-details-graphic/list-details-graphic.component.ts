@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Todo} from "../../models/todo";
 import {CalendarMode, Step} from "ionic2-calendar/calendar";
+import * as $ from 'jquery'
 
 @Component({
   selector: 'app-list-details-graphic',
@@ -27,11 +28,13 @@ export class ListDetailsGraphicComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
+    let msg: string;
     let events = [];
     for (let todo of this.todos) {
       if (todo.start != "") {
+        msg = this.state(todo);
         events.push({
-          title: todo.name,
+          title: msg+todo.name,
           startTime: new Date(todo.start),
           endTime: new Date(todo.end),
           allDay: false
@@ -41,7 +44,40 @@ export class ListDetailsGraphicComponent implements OnInit {
     this.eventSource = events;
   }
 
+  updateColor(){
+    setTimeout(() => {
+      $(".calendar-event-inner:contains('En cours')").addClass("todo-warning");
+      $(".calendar-event-inner:contains('Attention')").addClass("todo-attention");
+      $(".calendar-event-inner:contains('Fini')").addClass("todo-done");
+    }, 50);
+  }
+
+  updateColorText(){
+      $(".event-detail:contains('En cours')").addClass("todo-details-warning");
+      $(".event-detail:contains('Attention')").addClass("todo-details-attention");
+      $(".event-detail:contains('Fini')").addClass("todo-details-done");
+  }
+
+  ngAfterViewInit(){
+    this.updateColor();
+  }
+
+  state(todo: Todo) {
+    if(!todo.isDone) {
+      let delta = (new Date(todo.end).getTime() - new Date(todo.start).getTime())/3;//Interval
+      let res = (new Date().getTime() - new Date(todo.start).getTime());
+      if(res <= delta*2) {
+        return "En cours : ";
+      } else if (res > delta *2) {
+        return "Attention : ";
+      }
+    } else if (todo.isDone) {
+      return "Fini : ";
+    }
+  }
+
   onEventSelected(event) {
+    this.updateColorText();
     console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
   }
 
@@ -51,16 +87,19 @@ export class ListDetailsGraphicComponent implements OnInit {
         this.isMonth = true;
         this.isWeek = false;
         this.isDay = false;
+        this.updateColorText();
         break;
       case 'week' :
         this.isMonth = false;
         this.isWeek = true;
         this.isDay = false;
+        this.updateColor();
         break;
       case 'day' :
         this.isMonth = false;
         this.isWeek = false;
         this.isDay = true;
+        this.updateColor();
         break;
     }
     this.calendar.mode = mode;
@@ -75,5 +114,10 @@ export class ListDetailsGraphicComponent implements OnInit {
     today.setHours(0, 0, 0, 0);
     event.setHours(0, 0, 0, 0);
     this.isToday = today.getTime() === event.getTime();
+    this.updateColor();
+  }
+
+  onTimeSelected(event: any) {
+    this.updateColorText();
   }
 }
