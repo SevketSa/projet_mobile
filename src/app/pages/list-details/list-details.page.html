@@ -18,8 +18,8 @@
       Tâches
     </ion-button>
     <ion-button (click)="changeComponent()" [disabled]="!this.listComponent" expand="full">
-      <ion-icon name="stats-chart"></ion-icon>
-      Calendrier
+      <ion-icon name="calendar"></ion-icon>
+      Planning
     </ion-button>
   </div>
   <app-list-details-list *ngIf="this.listComponent" [delete]="myDelete" [todos]="this.todos" [listId]="this.listId" [canWrite]="this.canWrite"></app-list-details-list>
