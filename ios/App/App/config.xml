@@ -6,5 +6,9 @@
     <param name="ios-package" value="Calendar"/>
   </feature>
 
+  <feature name="Accelerometer">
+    <param name="ios-package" value="CDVAccelerometer"/>
+  </feature>
+
   
 </widget>

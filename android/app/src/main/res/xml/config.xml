@@ -6,5 +6,9 @@
     <param name="android-package" value="nl.xservices.plugins.Calendar"/>
   </feature>
 
+  <feature name="Accelerometer">
+    <param name="android-package" value="org.apache.cordova.devicemotion.AccelListener"/>
+  </feature>
+
   
 </widget>
