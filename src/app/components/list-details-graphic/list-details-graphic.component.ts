@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Todo} from "../../models/todo";
 import {CalendarMode, Step} from "ionic2-calendar/calendar";
 import * as $ from 'jquery'
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-list-details-graphic',
@@ -25,7 +26,7 @@ export class ListDetailsGraphicComponent implements OnInit {
     currentDate: new Date(),
   };
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
     let msg: string;
@@ -37,7 +38,8 @@ export class ListDetailsGraphicComponent implements OnInit {
           title: msg+todo.name,
           startTime: new Date(todo.start),
           endTime: new Date(todo.end),
-          allDay: false
+          allDay: false,
+          id: todo.id,
         });
       }
     }
@@ -79,6 +81,7 @@ export class ListDetailsGraphicComponent implements OnInit {
   onEventSelected(event) {
     this.updateColorText();
     console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
+    this.router.navigate(['/todo-details/'+this.listId+'/'+event.id]).catch(() => console.log("erreur de redirection"))
   }
 
   changeMode(mode) {

@@ -10,7 +10,7 @@ import {CreateQrcodeComponent} from "../../modals/create-qrcode/create-qrcode.co
 import * as uuid from 'uuid';
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {AuthenticationService} from '../../services/authentication.service';
-import {switchMap} from 'rxjs/operators';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-list-details',
@@ -30,7 +30,8 @@ export class ListDetailsPage implements OnInit {
               public modalController: ModalController,
               public afs: AngularFirestore,
               public router: Router,
-              public authenticationService: AuthenticationService) { }
+              public authenticationService: AuthenticationService,
+              private location: Location) { }
 
   ngOnInit() {
     this.listService.getOne(+this.route.snapshot.paramMap.get("id")).subscribe(list => {
@@ -83,5 +84,9 @@ export class ListDetailsPage implements OnInit {
 
   changeComponent() {
     this.listComponent = !this.listComponent;
+  }
+
+  back() {
+    this.location.back();
   }
 }

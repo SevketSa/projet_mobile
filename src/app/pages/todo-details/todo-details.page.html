@@ -3,7 +3,7 @@
     <ion-title>
       Détail de la tâche
     </ion-title>
-    <ion-button slot="start" [routerLink]="['/list-details/'+this.listId]">
+    <ion-button slot="start" (click)="back()">
       <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
     </ion-button>
   </ion-toolbar>
@@ -42,4 +42,8 @@
     <ion-button *ngIf="!this.start && this.canWrite" (click)="startTodo()">Commencer la tâche</ion-button>
     <ion-button *ngIf="this.canWrite" type="submit" expand="block">Save</ion-button>
   </form>
+  <ion-button *ngIf="this.start" [disabled]="this.isWeb" expand="block" color="secondary" (click)="addToCalendar()">
+    <ion-icon name="calendar"></ion-icon>
+    Ajouter à mon calendrier
+  </ion-button>
 </ion-content>

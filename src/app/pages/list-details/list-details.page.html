@@ -4,7 +4,7 @@
     <ion-button slot="end" fill="outline" (click)="shareQRCode()">
       <ion-icon slot="icon-only" name="share"></ion-icon>
     </ion-button>
-    <ion-button slot="start" [routerLink]="['/tabs/home']">
+    <ion-button slot="start" (click)="back()">
       <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
     </ion-button>
   </ion-toolbar>

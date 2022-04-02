@@ -8,6 +8,8 @@ import { TodoDetailsPageRoutingModule } from './todo-details-routing.module';
 
 import { TodoDetailsPage } from './todo-details.page';
 import localeFr from '@angular/common/locales/fr';
+import {Calendar} from '@awesome-cordova-plugins/calendar/ngx';
+
 registerLocaleData(localeFr);
 
 @NgModule({
@@ -19,6 +21,7 @@ registerLocaleData(localeFr);
     FormsModule,
     ReactiveFormsModule,
   ],
-  declarations: [TodoDetailsPage]
+  declarations: [TodoDetailsPage],
+  providers: [Calendar]
 })
 export class TodoDetailsPageModule {}
