@@ -80,7 +80,6 @@ export class ListDetailsGraphicComponent implements OnInit {
 
   onEventSelected(event) {
     this.updateColorText();
-    console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
     this.router.navigate(['/todo-details/'+this.listId+'/'+event.id]).catch(() => console.log("erreur de redirection"))
   }
 

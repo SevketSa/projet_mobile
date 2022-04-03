@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
+import {Shake} from '@awesome-cordova-plugins/shake/ngx';
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import { HomePageRoutingModule } from './home-routing.module';
         IonicModule,
         HomePageRoutingModule,
     ],
-  declarations: [HomePage]
+    declarations: [HomePage],
+    providers: [Shake]
 })
 export class HomePageModule {}

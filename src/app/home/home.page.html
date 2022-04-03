@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-item-group *ngFor="let types of this.lists | async; let indexType = index;">
+  <ion-item-group *ngFor="let types of this.allLists | async; let indexType = index;">
     <ion-item-divider>
       <ion-label>{{ this.type[indexType] }}</ion-label>
     </ion-item-divider>

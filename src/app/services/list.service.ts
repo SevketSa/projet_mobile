@@ -34,6 +34,20 @@ export class ListService {
     )
   }
 
+  public getAllSorted()  {
+    return this.authentication.getUser().pipe(
+        switchMap( user => {
+          const owner = this.afs.collection<List>('lists/', ref => ref.where('owner','==',user.uid).orderBy("name")).valueChanges();
+          // const obs2 = this.afs.collection<List>('lists/', ref => ref.where('canWrite', 'array-contains', user.uid)).valueChanges();
+          const write = this.afs.collection<List>('lists/', ref => ref.where('canWrite', 'array-contains', user.email).orderBy("name")).valueChanges();
+          // const obs3 = this.afs.collection<List>('lists/', ref => ref.where('canRead', 'array-contains', user.uid)).valueChanges();
+          const read = this.afs.collection<List>('lists/', ref => ref.where('canRead', 'array-contains', user.email).orderBy("name")).valueChanges();
+          const rw = combineLatest([write, read]);
+          return combineLatest([combineLatest([owner]),rw]);
+        })
+    )
+  }
+
   public getOne(listId: number): Observable<List> {
     return this.afs.doc<List>('lists/' + listId).valueChanges().pipe(
       switchMap(list => this.afs.collection<Todo>('lists/' + listId + '/todos').valueChanges().pipe(

@@ -10,5 +10,10 @@
     <param name="ios-package" value="CDVAccelerometer"/>
   </feature>
 
+  <feature name="CDVShake">
+    <param name="ios-package" value="CDVShake"/>
+    <param name="onload" value="true"/>
+  </feature>
+
   
 </widget>

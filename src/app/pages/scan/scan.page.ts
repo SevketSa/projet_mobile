@@ -6,7 +6,6 @@ import {Token} from "../../models/token";
 import {AuthenticationService} from "../../services/authentication.service";
 import {Router} from "@angular/router";
 import {first} from 'rxjs/operators';
-import { DeviceMotion, DeviceMotionAccelerationData } from '@awesome-cordova-plugins/device-motion/ngx';
 
 
 
@@ -23,24 +22,9 @@ export class ScanPage implements OnInit {
 
   constructor(public listService: ListService,
               public authenticationService: AuthenticationService,
-              public router: Router,
-              public deviceMotion: DeviceMotion) { }
+              public router: Router) { }
 
-  ngOnInit() {
-    // Get the device current acceleration
-    this.deviceMotion.getCurrentAcceleration().then(
-      (acceleration: DeviceMotionAccelerationData) => console.log(acceleration),
-      (error: any) => console.log(error)
-    );
-
-    // Watch device acceleration
-    let subscription = this.deviceMotion.watchAcceleration().subscribe((acceleration: DeviceMotionAccelerationData) => {
-      console.log(acceleration);
-    });
-
-    // Stop watch
-    subscription.unsubscribe();
-  }
+  ngOnInit() {}
 
   async checkPermission() {
     return new Promise(async (resolve, reject) => {
