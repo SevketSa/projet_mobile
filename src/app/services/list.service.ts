@@ -64,11 +64,11 @@ export class ListService {
     return this.afs.doc<User>('users/' + userUid).valueChanges();
   }
 
-  public canWrite(listId: number, userMail: string) : Observable<boolean> {
+  public canWrite(listId: number) : Observable<boolean> {
     return this.authentication.getUser().pipe(
         switchMap( user => {
           return this.getOne(listId).pipe(map( list => {
-            return list.canWrite.includes(userMail) || user.email == userMail;
+            return list.canWrite.includes(user.email) || user.uid == list.owner;
           }));
         })
     )
@@ -89,11 +89,11 @@ export class ListService {
       owner: list.owner,
       canRead: list.canRead,
       canWrite: list.canWrite
-    }).catch(error => console.log("Erreur lors de la création d'un document List ! "+error))
+    }).catch(error => this.authentication.presentAlert("Erreur de création","Erreur lors de la création d'un document List ! "))
       .then(() => {
         this.authentication.presentAlert("Création réussi !","La liste <b>"+list.name+"</b> a été ajoutée.");
-        list.canWrite.forEach(userMail => this.addNotification(new Notifications("Vous avez était ajouté à la liste "+list.name+" avec les droits de lecture et d'écriture.", userMail)));
-        list.canRead.forEach(userMail => this.addNotification(new Notifications("Vous avez était ajouté à la liste "+list.name+" avec les droits de lecture.",userMail)));
+        list.canWrite.forEach(userMail => this.addNotification(new Notifications("Vous avez été ajouté à la liste "+list.name+" avec les droits de lecture et d'écriture.", userMail)));
+        list.canRead.forEach(userMail => this.addNotification(new Notifications("Vous avez été ajouté à la liste "+list.name+" avec les droits de lecture.",userMail)));
       });
   }
 
@@ -108,10 +108,8 @@ export class ListService {
       create: todo.create,
       start: "",
       end: ""
-    }).catch(error => console.log("Erreur lors de la création d'un document Todo ! "+error))
-        .then(() => {
-          this.authentication.presentAlert("Création réussi","La tâche <b>"+todo.name+"</b> a été ajoutée.")
-        });
+    }).catch(error => this.authentication.presentAlert("Erreur de création","Erreur lors de la création d'un document Todo ! "))
+        .then(() => this.authentication.presentAlert("Création réussi","La tâche <b>"+todo.name+"</b> a été ajoutée."));
   }
 
   public createQRToken(myId: string, listId: number ) {
@@ -120,7 +118,7 @@ export class ListService {
       created: formatDate(new Date(), 'yyyy-MM-ddTHH:mm:ss', 'en'),
       listId: listId,
     })
-      .catch(error => console.log("Erreur lors de la création du token ! " +error))
+      .catch(error => this.authentication.presentAlert("Erreur de création","Erreur lors de la création du token ! "))
   }
 
 
@@ -141,9 +139,9 @@ export class ListService {
     }).catch( e => console.log(e))
       .then( () => {
         if (canWrite.includes(newUserMail)) {
-          this.addNotification(new Notifications(newUserMail, "Vous avez était ajouté à la liste "+listName+" avec les droits de lecture et d'écriture."));
+          this.addNotification(new Notifications("Vous avez été ajouté à la liste "+listName+" avec les droits de lecture et d'écriture.", newUserMail));
         } else {
-          this.addNotification(new Notifications(newUserMail, "Vous avez était ajouté à la liste "+listName+" avec les droits de lecture."));
+          this.addNotification(new Notifications("Vous avez été ajouté à la liste "+listName+" avec les droits de lecture.", newUserMail));
         }
       })
   }
@@ -155,16 +153,16 @@ export class ListService {
   }
 
   public delete(listId: number) {
-    deleteDoc(doc(this.afs.firestore, "lists", listId.toString())).catch(error => console.log("Erreur lors de la suppression d'un document List ! "+error));
+    deleteDoc(doc(this.afs.firestore, "lists", listId.toString())).catch(error => this.authentication.presentAlert("Erreur de suppression","Erreur lors de la suppression d'un document List ! "));
   }
 
   public deleteTodo(listId: number, todoId: number) {
     const todoRef = this.afs.firestore.doc('lists/'+listId.toString())
-    deleteDoc(doc(todoRef, "todos", todoId.toString())).catch(error => console.log("Erreur lors de la suppression d'un document Todo ! "+error));
+    deleteDoc(doc(todoRef, "todos", todoId.toString())).catch(error => this.authentication.presentAlert("Erreur de suppression","Erreur lors de la suppression d'un document Todo ! "));
   }
 
   public deleteQRCode(token: string) {
-    deleteDoc(doc(this.afs.firestore, "QRToken", token)).catch(error => console.log("Erreur lors de la suppression d'un document QRToken ! "+error));
+    deleteDoc(doc(this.afs.firestore, "QRToken", token)).catch(error => this.authentication.presentAlert("Erreur de suppression","Erreur lors de la suppression d'un document QRToken ! "));
   }
 
   private addNotification(notif: Notifications) {
@@ -174,25 +172,15 @@ export class ListService {
       created: notif.created,
       message: notif.message,
       isRead: notif.isRead
-    }).catch(error => console.log("Erreur lors de la création d'un document Notifications ! "+error))
+    }).catch(error => this.authentication.presentAlert("Erreur de création", "Erreur lors de la création d'un document Notifications ! "+error))
   }
 
   public getNotifications(userMail: string) : Observable<Notifications[]> {
-    let userNotifs : Notifications[];
-    return this.afs.collection<Notifications>('notifications').valueChanges().pipe(map(notifs => {
-          userNotifs = [];
-          notifs.forEach(notif => {
-            if(notif.userMail == userMail){
-              userNotifs.push(notif);
-            }
-          })
-          return userNotifs;
-        })
-    );
+    return this.afs.collection<Notifications>('notifications/', ref => ref.where('userMail', '==', userMail)).valueChanges();
   }
 
   public deleteNotifications(notifId: number) {
-    deleteDoc(doc(this.afs.firestore, "notifications", notifId.toString())).catch(error => console.log("Erreur lors de la suppression d'un document Notifications ! "+error));
+    deleteDoc(doc(this.afs.firestore, "notifications", notifId.toString())).catch(error => this.authentication.presentAlert("Erreur de suppression","Erreur lors de la suppression d'un document Notifications ! "));
   }
 
   public notificationRead(notifId: number) {

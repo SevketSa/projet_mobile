@@ -49,7 +49,7 @@ export class ScanPage implements OnInit {
       if (result.hasContent) {
         this.scanActive = false;
         this.stopScanner()
-        this.authenticationService.getUser().subscribe(user=>{
+        this.authenticationService.getUser().pipe(first()).subscribe(user=>{
           this.listService.getToken(result.content).subscribe(token => {
             this.listService.getOne(token.listId).pipe(first()).subscribe(list => {
               this.canRead = list.canRead;

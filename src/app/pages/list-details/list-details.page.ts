@@ -11,6 +11,7 @@ import * as uuid from 'uuid';
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {AuthenticationService} from '../../services/authentication.service';
 import {Location} from '@angular/common';
+import {first} from "rxjs/operators";
 
 @Component({
   selector: 'app-list-details',
@@ -38,8 +39,8 @@ export class ListDetailsPage implements OnInit {
       this.listId = list.id;
       this.listName = list.name;
       this.todos = list.todos;
-      this.authenticationService.getUser().subscribe(user => {
-        this.listService.canWrite(this.listId, user.email).subscribe(canWrite => {
+      this.authenticationService.getUser().pipe(first()).subscribe(user => {
+        this.listService.canWrite(this.listId).subscribe(canWrite => {
           this.canWrite = canWrite
         });
       })
@@ -87,6 +88,6 @@ export class ListDetailsPage implements OnInit {
   }
 
   back() {
-    this.location.back();
+    this.router.navigate(['/list-details/'+this.listId]);
   }
 }

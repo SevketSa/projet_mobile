@@ -64,8 +64,8 @@ export class TodoDetailsPage implements OnInit {
       this.ionicForm.controls['start'].setValue(todo.start == "" ? "" : formatDate(new Date(todo.start), 'EEEE dd MMMM YYYY - HH:mm:ss', 'fr'));
       this.ionicForm.controls['end'].setValue(todo.end == "" ? "" : formatDate(new Date(todo.end), 'EEEE dd MMMM YYYY - HH:mm:ss', 'fr'));
     });
-    this.authenticationService.getUser().subscribe(user => {
-      this.listService.canWrite(this.listId, user.email).subscribe(canWrite => {
+    this.authenticationService.getUser().pipe(first()).subscribe(user => {
+      this.listService.canWrite(this.listId).subscribe(canWrite => {
         this.canWrite = canWrite;
         if (!canWrite) {
           this.ionicForm.controls['name'].disable();
@@ -129,7 +129,7 @@ export class TodoDetailsPage implements OnInit {
         this.calendar.requestReadWritePermission().then(() => {
           this.addEvent();
         }, () => {
-          console.log("Rejected");
+          this.authenticationService.presentAlert("Permission manquante", "Merci de donner les droits d'accès à votre calendrier dans les paramètres de vos applications.");
         })
       } else {
         this.addEvent();

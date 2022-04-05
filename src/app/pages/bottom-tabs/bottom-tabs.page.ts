@@ -3,6 +3,7 @@ import {CreateListComponent} from '../../modals/create-list/create-list.componen
 import {ModalController, Platform} from '@ionic/angular';
 import {ListService} from '../../services/list.service';
 import {AuthenticationService} from '../../services/authentication.service';
+import {first} from "rxjs/operators";
 
 @Component({
   selector: 'app-bottom-tabs',
@@ -20,8 +21,9 @@ export class BottomTabsPage implements OnInit {
 
   ngOnInit() {
     this.isWeb = this.platform.is('desktop') ? true : false;
-    this.authenticationService.getUser().subscribe(user => {
+    this.authenticationService.getUser().pipe(first()).subscribe(user => {
       this.listService.getNotifications(user.email).subscribe(notifs => {
+        this.notifications = 0;
         notifs.forEach(notif => {
           if(!notif.isRead) {
             this.notifications++;

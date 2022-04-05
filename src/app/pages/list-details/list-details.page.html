@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>{{ this.listName }}</ion-title>
-    <ion-button slot="end" fill="outline" (click)="shareQRCode()">
+    <ion-button *ngIf="canWrite" slot="end" fill="outline" (click)="shareQRCode()">
       <ion-icon slot="icon-only" name="share"></ion-icon>
     </ion-button>
     <ion-button slot="start" (click)="back()">

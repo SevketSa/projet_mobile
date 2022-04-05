@@ -14,8 +14,7 @@ export class NotificationsPage implements OnInit {
   isRead: boolean;
 
   constructor(public listService: ListService,
-              public authenticationService: AuthenticationService,
-              private renderer: Renderer2) { }
+              public authenticationService: AuthenticationService) { }
 
   ngOnInit() {
     this.authenticationService.getUser().subscribe(user => {

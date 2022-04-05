@@ -16,12 +16,12 @@
         <ion-input type="password" required formControlName="password"></ion-input>
       </ion-item>
       <app-password-strength-bar id="psb" [passwordToCheck]="this.ionicForm.value.password" [barLabel]="barLabel"></app-password-strength-bar>
-      <ion-item lines="full">
+      <ion-item class="register-button" lines="full">
         <ion-label position="stacked">Confirmer mot de passe</ion-label>
         <ion-input (keyup.enter)="this.register()" type="password" required formControlName="passwordConfirm"></ion-input>
       </ion-item>
       <ion-button expand="block" type="submit">S'inscrire</ion-button>
-      <ion-button expand="block" routerLink="/login">
+      <ion-button color="secondary" expand="block" routerLink="/login">
         Se connecter
       </ion-button>
     </form>

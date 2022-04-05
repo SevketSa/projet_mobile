@@ -15,7 +15,7 @@ export class ListDetailsGraphicComponent implements OnInit {
   @Input() listId: number;
   eventSource;
   viewTitle;
-  isToday: boolean;
+  isToday: boolean = true;
   isMonth = false;
   isWeek = true;
   isDay = false;

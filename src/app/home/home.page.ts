@@ -26,23 +26,23 @@ export class HomePage {
     }
 
     ngOnInit() {
-        this.allLists = this.listService.getAll();
-        if(!this.platform.is('desktop')) {
-            this.shake.startWatch().subscribe(() => {
-                if(!this.wait) {
-                    if (this.isSorted) {
-                        this.allLists = this.listService.getAll();
-                        this.wait = true;
-                        this.presentAlert("Bouge ton tel", "La liste a été trié par défaut.")
-                    } else {
-                        this.allLists = this.listService.getAllSorted();
-                        this.wait = true;
-                        this.presentAlert("Bouge ton tel", "La liste a été trié par ordre alphabétique.")
-                    }
-                    this.isSorted = !this.isSorted;
-                }
-            });
-        }
+      this.allLists = this.listService.getAll();
+      if(!this.platform.is('desktop')) {
+          this.shake.startWatch().subscribe(() => {
+              if(!this.wait) {
+                  if (this.isSorted) {
+                      this.allLists = this.listService.getAll();
+                      this.wait = true;
+                      this.presentAlert("Bouge ton tel", "La liste a été trié par défaut.")
+                  } else {
+                      this.allLists = this.listService.getAllSorted();
+                      this.wait = true;
+                      this.presentAlert("Bouge ton tel", "La liste a été trié par ordre alphabétique.")
+                  }
+                  this.isSorted = !this.isSorted;
+              }
+          });
+      }
     }
 
     delete(listId: number) {

@@ -11,9 +11,6 @@
   <ion-button expand="full" (click)="startScanner()" [hidden]="scanActive">
     LIRE
   </ion-button>
-  <ion-button expand="full" (click)="perms()" [hidden]="scanActive">
-    Perms
-  </ion-button>
   <ion-row class="scan-button" [hidden]="!scanActive">
     <ion-col class="ion-no-padding">
       <ion-button expand="full" (click)="stopScanner()">FERMER</ion-button>

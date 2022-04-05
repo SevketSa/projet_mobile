@@ -4,6 +4,7 @@ import {ListService} from "../../services/list.service";
 import {List} from "../../models/list";
 import {ModalController} from "@ionic/angular";
 import {AuthenticationService} from "../../services/authentication.service";
+import {first} from "rxjs/operators";
 
 @Component({
   selector: 'app-create-list',
@@ -36,7 +37,7 @@ export class CreateListComponent implements OnInit {
 
   addList() {
     if(this.ionicForm.value.name != null) {
-      this.authenticationService.getUser().subscribe(
+      this.authenticationService.getUser().pipe(first()).subscribe(
           user => {
             let listMailR : string[] = [];
             let listMailRW : string[] = [];

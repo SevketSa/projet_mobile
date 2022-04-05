@@ -48,7 +48,7 @@ export class AuthenticationService {
                     phone: "",
                     profilPicture: userCred.additionalUserInfo.profile['picture']
                 })
-                .catch(error => console.log("Erreur lors de la création d'un user avec Google ! "+error))
+                .catch(error => this.presentAlert("Erreur de création","Erreur lors de la création d'un user avec Google ! "))
             }
         }).catch((error) => {
             this.presentAlert("Erreur de connexion", LoginPage.errorMessage(error.code)).catch((error) => console.error(error));
@@ -65,7 +65,7 @@ export class AuthenticationService {
                     phone: "",
                     profilPicture: userCred.additionalUserInfo.profile['picture']['data']['url']
                 })
-                .catch(error => console.log("Erreur lors de la création d'un user avec Google ! "+error))
+                .catch(error => this.presentAlert("Erreur de création","Erreur lors de la création d'un utilisateur avec Google ! "))
             }
         }).catch((error) => {
             this.presentAlert("Erreur de connexion", LoginPage.errorMessage(error.code)).catch((error) => console.error(error));
@@ -80,7 +80,7 @@ export class AuthenticationService {
         const userCred = await this.auth.signInWithEmailAndPassword(formLogin.email, formLogin.password);
         if (!userCred.user.emailVerified) {
           await this.auth.signOut();
-          this.presentAlert("Erreur de connexion", "Votre email n'a pas était vérifié. Merci de cliquer sur le lien qui vous a était envoyé par mail au moment de l'inscription.").catch((error) => console.error(error));
+          this.presentAlert("Erreur de connexion", "Votre email n'a pas été vérifié. Merci de cliquer sur le lien qui vous a été envoyé par mail au moment de l'inscription.").catch((error) => console.error(error));
         }
     }
 
@@ -94,10 +94,10 @@ export class AuthenticationService {
             phone: "",
             notifications: []
         })
-        .catch(error => console.log("Erreur lors de la création d'un user ! "+error))
+        .catch(error => this.presentAlert("Erreur de création","Erreur lors de la création d'un utilisateur ! "))
         .then(() => {
-            this.auth.signOut().catch(error => console.log("Erreur lors de la deconnexion. "+error));
-            this.confirmMailAlert("Confirmation mail", "Merci de cliquer sur le lien qui vous a était envoyé par mail afin de valider ce dernier et pouvoir acceder à l'application.").catch((error) => console.error(error));
+            this.auth.signOut().catch(error => this.presentAlert("Erreur","Erreur lors de la deconnexion. "));
+            this.confirmMailAlert("Confirmation mail", "Merci de cliquer sur le lien qui vous a été envoyé par mail afin de valider ce dernier et pouvoir acceder à l'application.").catch((error) => console.error(error));
 
         });
     }

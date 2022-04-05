@@ -10,7 +10,7 @@ import {AuthenticationService} from '../../services/authentication.service';
 export class RegisterPage implements OnInit {
   @ViewChild('itemConfirmPwd') itemConfirmPwd : ElementRef;
   public ionicForm: FormGroup;
-  public barLabel: string = "Password strength:";
+  public barLabel: string = "Force du mot de passe:";
 
   constructor(public authenticationService: AuthenticationService,
               public formBuilder: FormBuilder
