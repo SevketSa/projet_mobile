@@ -88,6 +88,6 @@ export class ListDetailsPage implements OnInit {
   }
 
   back() {
-    this.router.navigate(['/list-details/'+this.listId]);
+    this.router.navigate(['/tabs/home']);
   }
 }
